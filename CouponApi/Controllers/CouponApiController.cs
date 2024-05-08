@@ -1,9 +1,11 @@
-﻿using CouponApi.Data;
+﻿using AutoMapper;
+using CouponApi.Data;
 using CouponApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shared;
+using Shared.Dtos;
 
 namespace CouponApi.Controllers
 {
@@ -12,11 +14,13 @@ namespace CouponApi.Controllers
     public class CouponApiController : ControllerBase
     {
         private readonly ApplicationDbContext _db;
+        private readonly IMapper _mapper;
         private readonly ResponseDto _response;
 
-        public CouponApiController(ApplicationDbContext db)
+        public CouponApiController(ApplicationDbContext db, IMapper mapper)
         {
             _db = db;
+            _mapper = mapper;
             _response = new();
         }
 
@@ -27,7 +31,7 @@ namespace CouponApi.Controllers
             {
                 var models = await _db.Coupons.ToListAsync();
                 _response.IsSuccessful = true;
-                _response.Result = models;
+                _response.Result = _mapper.Map<List<CouponDto>>(models);
             }
             catch (Exception ex)
             {
@@ -45,7 +49,7 @@ namespace CouponApi.Controllers
             {
                 var model = await _db.Coupons.FirstOrDefaultAsync(x=>x.Id == id);
                 _response.IsSuccessful = true;
-                _response.Result = model;
+                _response.Result = _mapper.Map<CouponDto>(model);
             }
             catch (Exception ex)
             {
