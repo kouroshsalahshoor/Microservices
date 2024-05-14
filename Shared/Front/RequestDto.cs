@@ -1,4 +1,4 @@
-﻿namespace Shared.Front
+namespace Shared.Front
 {
     public class RequestDto
     {
