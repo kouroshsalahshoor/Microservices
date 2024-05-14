@@ -1,9 +1,8 @@
-﻿using BlazorAuto.Client.Services.IService;
-using Shared;
+﻿using Shared;
 using Shared.Dtos;
 using Shared.Front;
 
-namespace BlazorAuto.Client.Services
+namespace BlazorWasm.Services.IServices
 {
     public class CouponService : ICouponService
     {

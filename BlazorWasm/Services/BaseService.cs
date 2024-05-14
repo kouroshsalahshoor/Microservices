@@ -1,11 +1,11 @@
-﻿using BlazorAuto.Client.Services.IService;
+﻿using BlazorWasm.Services.IServices;
 using Newtonsoft.Json;
 using Shared;
 using Shared.Front;
 using System.Net;
 using System.Text;
 
-namespace BlazorAuto.Client.Services
+namespace BlazorWam.Services
 {
     public class BaseService : IBaseService
     {
@@ -19,7 +19,7 @@ namespace BlazorAuto.Client.Services
         {
             try
             {
-                var client = _httpClientFactory.CreateClient("myClient");
+                var client = _httpClientFactory.CreateClient("apiClient");
                 HttpRequestMessage message = new();
                 message.Headers.Add("Accept", "application/json");
 
@@ -28,7 +28,7 @@ namespace BlazorAuto.Client.Services
                 message.RequestUri = new Uri(dto.Url);
                 if (dto.Data is not null)
                 {
-                    message.Content = new StringContent(JsonConvert.SerializeObject(dto.Data), Encoding.UTF8, "application.json");
+                    message.Content = new StringContent(JsonConvert.SerializeObject(dto.Data), Encoding.UTF8, "application/json");
                 }
 
                 switch (dto.ApiType)
@@ -68,7 +68,7 @@ namespace BlazorAuto.Client.Services
             {
                 return new ResponseDto() { IsSuccessful = false, Errors = new List<string> { ex.Message } };
             }
-            
+
         }
     }
 }

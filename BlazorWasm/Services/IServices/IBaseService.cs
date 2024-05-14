@@ -1,7 +1,7 @@
 ﻿using Shared;
 using Shared.Front;
 
-namespace BlazorAuto.Client.Services.IService
+namespace BlazorWasm.Services.IServices
 {
     public interface IBaseService
     {
