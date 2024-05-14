@@ -60,6 +60,10 @@
             {
                 _model = JsonConvert.DeserializeObject<CouponDto>(Convert.ToString(_response.Result)!)!;
             }
+            else
+            {
+                await _js.ToastrError(_response!.Errors.First());
+            }
         }
         _loading = false;
     }
@@ -69,16 +73,21 @@
         if (Id > 0)
         {
             _response = await _service.Update(_model);
-            
+            await _js.ToastrSuccess("Updated");
         }
         else
         {
             _response = await _service.Create(_model);
+            await _js.ToastrSuccess("Created");
         }
 
         if (_response is not null && _response.IsSuccessful)
         {
             _navigationManager.NavigateTo("coupons");
+        }
+        else
+        {
+            await _js.ToastrError(_response!.Errors.First());
         }
     }
 }
