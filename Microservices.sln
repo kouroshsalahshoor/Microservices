@@ -11,11 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integeration", "Integeratio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{3C33B7E5-1D6A-4711-85AC-23A83B81DE60}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{CA7EB621-5F4B-44DF-9EB8-182B3FCC909A}"
-	ProjectSection(SolutionItems) = preProject
-		..\))) Microservices\images\BlazorMicroservices.png = ..\))) Microservices\images\BlazorMicroservices.png
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CouponApi", "CouponApi\CouponApi.csproj", "{D623AE69-A1C3-4909-832A-E969F6A91661}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{31EFAC72-CC32-46D4-8319-16E025FA55C8}"
