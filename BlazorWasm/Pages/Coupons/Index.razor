@@ -68,6 +68,10 @@ else
         {
             _items = JsonConvert.DeserializeObject<List<CouponDto>>(Convert.ToString(_response.Result)!)!;
         }
+        else
+        {
+            await _js.ToastrError(_response!.Errors.First()); //test it by changing an endpoint route
+        }
         _loading = false;
     }
 
