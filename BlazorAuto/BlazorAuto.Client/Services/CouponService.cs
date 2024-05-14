@@ -1,7 +1,7 @@
-﻿using BlazorAuto.Client.Infrastructure;
-using BlazorAuto.Client.Services.IService;
+﻿using BlazorAuto.Client.Services.IService;
 using Shared;
 using Shared.Dtos;
+using Shared.Front;
 
 namespace BlazorAuto.Client.Services
 {

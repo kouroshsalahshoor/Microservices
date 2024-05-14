@@ -1,4 +1,4 @@
-﻿namespace BlazorAuto.Client.Infrastructure
+﻿namespace Shared.Front
 {
     public enum ApiType
     {

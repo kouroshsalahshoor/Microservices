@@ -1,9 +1,8 @@
-﻿using BlazorAuto.Client.Infrastructure;
-using BlazorAuto.Client.Services.IService;
+﻿using BlazorAuto.Client.Services.IService;
 using Newtonsoft.Json;
 using Shared;
+using Shared.Front;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Text;
 
 namespace BlazorAuto.Client.Services
