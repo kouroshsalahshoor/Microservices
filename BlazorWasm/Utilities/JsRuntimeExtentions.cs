@@ -15,5 +15,15 @@ namespace BlazorWasm.Utilities
             return jsSRuntime.InvokeVoidAsync("ShowToastr", "error", message);
         }
 
+        //SweetAlert2
+        public static ValueTask SweetAlert2Success(this IJSRuntime jSRuntime, string message)
+        {
+            return jSRuntime.InvokeVoidAsync("ShowSweetAlert2", "success", message);
+        }
+        public static ValueTask SweetAlert2Error(this IJSRuntime jsSRuntime, string message)
+        {
+            return jsSRuntime.InvokeVoidAsync("ShowSweetAlert2", "error", message);
+        }
+
     }
 }

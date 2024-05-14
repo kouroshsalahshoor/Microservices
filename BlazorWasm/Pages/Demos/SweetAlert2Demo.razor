@@ -1,0 +1,18 @@
+﻿@page "/demos/SweetAlert2"
+
+<PageTitle>Sweet Alert Demo</PageTitle>
+
+<button class="btn btn-success" @onclick="showSuccess">ShowSuccess</button>
+<button class="btn btn-danger" @onclick="showError">ShowError</button>
+
+@code
+{
+    private async Task showSuccess()
+    {
+        await _js.SweetAlert2Success("success");
+    }
+    private async Task showError()
+    {
+        await _js.SweetAlert2Error("error");
+    }
+}

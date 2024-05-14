@@ -1,0 +1,91 @@
+﻿@page "/demos/LifeCycle"
+
+@using System.Threading
+
+<PageTitle>LifeCycle</PageTitle>
+
+<h1>LifeCycle</h1>
+
+<img src="images/lifecycle.png" />
+
+<hr />
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-warning" @onclick="start">Start Countdown</button>
+
+<hr />
+<p>Events</p>
+<ul>
+    @foreach (var item in _events)
+    {
+        <li>@item</li>
+    }
+</ul>
+
+@code {
+    private int currentCount = 0;
+    private List<string> _events = new();
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    protected override void OnInitialized()
+    {
+        _events.Add("OnInitialized");
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(() =>
+        {
+            _events.Add("OnInitializedAsync");
+        });
+    }
+    protected override void OnParametersSet()
+    {
+        _events.Add("OnParametersSet");
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+        await Task.Run(() =>
+        {
+            _events.Add("OnParametersSetAsync");
+        });
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        _events.Add("OnAfterRender");
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Task.Run(() =>
+            {
+                _events.Add("OnAfterRenderAsync > firstRender");
+            });
+        }
+        _events.Add("OnAfterRenderAsync");
+    }
+    protected override bool ShouldRender()
+    {
+        _events.Add("ShouldRender");
+        return true;
+    }
+
+    private void start()
+    {
+        var timer = new Timer(timerCallBack!, null, 1000, 1000);
+    }
+    private void timerCallBack(object state)
+    {
+        if (currentCount > 0)
+        {
+            currentCount--;
+            InvokeAsync(StateHasChanged);
+        }
+    }
+}
