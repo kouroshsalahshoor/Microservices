@@ -1,7 +1,7 @@
 ﻿using Shared;
 using Shared.Dtos;
 
-namespace BlazorAuto.Client.Services.IService
+namespace BlazorWasm.Services.IServices
 {
     public interface ICouponService
     {
