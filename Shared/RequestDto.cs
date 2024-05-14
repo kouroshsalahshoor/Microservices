@@ -1,4 +1,4 @@
-﻿namespace BlazorAuto.Client.Infrastructure
+﻿namespace Shared
 {
     public class RequestDto
     {

@@ -1,4 +1,3 @@
-using BlazorAuto.Client.Infrastructure;
 using BlazorAuto.Client.Services;
 using BlazorAuto.Client.Services.IService;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
