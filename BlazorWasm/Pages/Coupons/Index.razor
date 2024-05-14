@@ -1,0 +1,66 @@
+﻿@page "/coupons"
+@inject ICouponService _service
+
+<PageTitle>@_title</PageTitle>
+
+<h1>@_title</h1>
+
+@if (_loading == true)
+{
+    <p>loading ...</p>
+}
+else
+{
+    if (_items == null)
+    {
+        if (_response!.Errors is not null)
+        {
+            @foreach (var error in _response.Errors)
+            {
+                <p class="text-danger">@error</p>
+            }
+        }
+    }
+    else
+    {
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Code</th>
+                    <th scope="col">DiscountAmount</th>
+                    <th scope="col">MinAmount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in _items)
+                {
+                    <tr>
+                        <th scope="row">@item.Id</th>
+                        <td>@item.Code</td>
+                        <td>@item.DiscountAmount</td>
+                        <td>@item.MinAmount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+    private string _title = "Coupons";
+    private bool _loading = true;
+    private ResponseDto? _response;
+
+    private List<CouponDto> _items = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _response = await _service.Get();
+        if (_response is not null && _response.IsSuccessful)
+        {
+            _items = JsonConvert.DeserializeObject<List<CouponDto>>(Convert.ToString(_response.Result)!)!;
+        }
+        _loading = false;
+    }
+}

@@ -19,7 +19,7 @@ namespace BlazorWam.Services
         {
             try
             {
-                var client = _httpClientFactory.CreateClient("apiClient");
+                var client = _httpClientFactory.CreateClient("xClient");
                 HttpRequestMessage message = new();
                 message.Headers.Add("Accept", "application/json");
 
@@ -61,7 +61,8 @@ namespace BlazorWam.Services
                         return new ResponseDto() { IsSuccessful = false, Errors = new List<string> { "Internal Server Error" } };
                     default:
                         var apiContent = await response.Content.ReadAsStringAsync();
-                        return JsonConvert.DeserializeObject<ResponseDto>(apiContent);
+                        var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
+                        return apiResponseDto;
                 }
             }
             catch (Exception ex)
