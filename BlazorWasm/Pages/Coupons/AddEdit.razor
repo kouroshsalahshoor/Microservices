@@ -1,0 +1,84 @@
+﻿@page "/coupon/create"
+@page "/coupon/edit/{id:int}"
+
+@inject ICouponService _service
+
+<PageTitle>@_title</PageTitle>
+
+<h1>@_title</h1>
+
+@if (_response is not null && _response.Errors.Any())
+{
+    <Errors Items="_response.Errors" />
+}
+
+<div class="row">
+    <EditForm Model="_model" method="post" OnValidSubmit="validSubmit">
+        <DataAnnotationsValidator />
+        @* <h2>@_title</h2> *@
+        <hr />
+        <ValidationSummary class="text-danger" role="alert" />
+
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="_model.Code" class="form-control" autocomplete="code" aria-required="true" placeholder="Code" />
+            <label for="code">Code</label>
+            <ValidationMessage For="() => _model.Code" class="text-danger" />
+        </div>
+        <div class="form-floating mb-3">
+            <InputNumber @bind-Value="_model.DiscountAmount" class="form-control" autocomplete="discountAmount" aria-required="true" placeholder="DiscountAmount" />
+            <label for="discountAmount">DiscountAmount</label>
+            <ValidationMessage For="() => _model.DiscountAmount" class="text-danger" />
+        </div>
+        <div class="form-floating mb-3">
+            <InputNumber @bind-Value="_model.MinAmount" class="form-control" autocomplete="minAmount" aria-required="true" placeholder="MinAmount" />
+            <label for="minAmount">MinAmount</label>
+            <ValidationMessage For="() => _model.MinAmount" class="text-danger" />
+        </div>
+
+        <button type="submit" class="w-100 btn btn-lg btn-primary">Submit</button>
+        <a class="w-100 btn btn-lg btn-light mt-3" href="coupons">Back to list</a>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    private string _title = "Create Coupon";
+    private bool _loading = true;
+    private ResponseDto? _response;
+
+    private CouponDto _model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            _title = "Edit Coupon";
+
+            _response = await _service.Get(Id);
+            if (_response is not null && _response.IsSuccessful)
+            {
+                _model = JsonConvert.DeserializeObject<CouponDto>(Convert.ToString(_response.Result)!)!;
+            }
+        }
+        _loading = false;
+    }
+
+    private async Task validSubmit()
+    {
+        if (Id > 0)
+        {
+            _response = await _service.Update(_model);
+            
+        }
+        else
+        {
+            _response = await _service.Create(_model);
+        }
+
+        if (_response is not null && _response.IsSuccessful)
+        {
+            _navigationManager.NavigateTo("coupons");
+        }
+    }
+}

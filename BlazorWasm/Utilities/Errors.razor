@@ -1,0 +1,11 @@
+﻿@if (Items.Any())
+{
+    foreach (var item in Items)
+    {
+        <p class="text-danger">@item</p>
+    }
+}
+
+@code {
+    [Parameter] public List<string> Items { get; set; } = new();
+}

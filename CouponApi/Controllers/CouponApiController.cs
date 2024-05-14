@@ -9,7 +9,7 @@ using Shared.Dtos;
 
 namespace CouponApi.Controllers
 {
-    [Route("api/couponapi")]
+    [Route("api/coupon")]
     //[Route("api/[controller]")]
     [ApiController]
     public class CouponApiController : ControllerBase
