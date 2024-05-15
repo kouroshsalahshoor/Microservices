@@ -5,7 +5,7 @@
 ---
 ## 
 * microservices with Web API
-* AuthApi with jwt token & roles
+* AuthApi with jwt token & roles (Single Sign On)
 * Blazor Wasm
   
 ---
