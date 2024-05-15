@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AuthApi.Services.IServices;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
+using Shared.Dtos.Auth;
 
 namespace AuthApi.Controllers
 {
@@ -8,10 +11,24 @@ namespace AuthApi.Controllers
     [ApiController]
     public class AuthApiController : ControllerBase
     {
-        [HttpPost("register")]
-        public async Task<IActionResult> Register()
+        private ResponseDto _response;
+        private readonly IAuthService _authService;
+
+        public AuthApiController(IAuthService authService)
         {
-            return Ok();
+            _authService = authService;
+            _response = new();
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterDto dto)
+        {
+            _response = await _authService.Register(dto);
+            if (_response.IsSuccessful)
+            {
+                return Ok(_response);
+            }
+            return BadRequest(_response);
         }
 
         [HttpPost("login")]

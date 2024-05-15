@@ -1,0 +1,11 @@
+﻿using Shared;
+using Shared.Dtos.Auth;
+
+namespace AuthApi.Services.IServices
+{
+    public interface IAuthService
+    {
+        Task<ResponseDto> Register(RegisterDto dto);
+        Task<LoginResponseDto> Login(LoginDto dto);
+    }
+}
