@@ -46,8 +46,20 @@
         </div>
         <div class="form-floating mb-3">
             <InputText @bind-Value="_model.Password" class="form-control" autocomplete="Password" aria-required="true" placeholder="Password" type="password" />
-            <label for="UserName">Password</label>
+            <label for="Password">Password</label>
             <ValidationMessage For="() => _model.Password" class="text-danger" />
+        </div>
+        @* https://learn.microsoft.com/en-us/aspnet/core/blazor/forms/input-components?view=aspnetcore-8.0 *@
+        <div class="form-floating mb-3">
+            <InputSelect @bind-Value="_model.Role" class="form-select">
+                @* <option value="">
+                Please select a role
+                </option> *@
+                <option value="@ApplicationConstants.Role_User">@ApplicationConstants.Role_User</option>
+                <option value="@ApplicationConstants.Role_Admin">@ApplicationConstants.Role_Admin</option>
+            </InputSelect>
+            <label for="Role">Role</label>
+            <ValidationMessage For="() => _model.Role" class="text-danger" />
         </div>
 
         <button type="submit" class="w-100 btn btn-primary">Submit</button>
@@ -61,7 +73,7 @@
     private bool _loading = true;
     private ResponseDto? _response;
 
-    private RegisterDto _model = new();
+    private RegisterDto _model = new() { Role = ApplicationConstants.Role_User };
 
     private async Task validSubmit()
     {
@@ -69,11 +81,14 @@
 
         if (_response is not null && _response.IsSuccessful)
         {
-            _navigationManager.NavigateTo("/auth/login");
+            _response = await _service.AssignToRole(_model);
+
+            if (_response is not null && _response.IsSuccessful)
+            {
+                _navigationManager.NavigateTo("/auth/login");
+            }
         }
-        else
-        {
-            await _js.ToastrError(_response!.Errors.First());
-        }
+        
+        await _js.ToastrError(_response!.Errors.First());
     }
 }
