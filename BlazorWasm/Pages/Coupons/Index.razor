@@ -25,7 +25,7 @@ else
                     <th scope="col">Code</th>
                     <th scope="col">DiscountAmount</th>
                     <th scope="col">MinAmount</th>
-                    <th scope="col" style="width:300px;"><a class="w-100 btn btn-lg btn-primary" href="coupon/create">Create</a></th>
+                    <th scope="col" style="width:300px;"><a class="w-100 btn btn-primary" href="coupon/create">Create</a></th>
                 </tr>
             </thead>
             <tbody>
@@ -37,8 +37,8 @@ else
                         <td>@item.DiscountAmount</td>
                         <td>@item.MinAmount</td>
                         <td>
-                            <a class="btn btn-lg btn-warning float-end m-1" href="coupon/edit/@item.Id">Edit</a>
-                            <button class="btn btn-lg btn-danger float-end m-1" @onclick="@(async () => await delete(item.Id))">Delete</button>
+                            <a class="btn btn-warning float-end m-1" href="coupon/edit/@item.Id">Edit</a>
+                            <button class="btn btn-danger float-end m-1" @onclick="@(async () => await delete(item.Id))">Delete</button>
                         </td>
                     </tr>
                 }

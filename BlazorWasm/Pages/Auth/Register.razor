@@ -1,5 +1,79 @@
-﻿<h3>Register</h3>
+﻿@page "/auth/register"
+
+@inject IAuthService _service
+
+<PageTitle>@_title</PageTitle>
+
+<h1>@_title</h1>
+
+@if (_response is not null && _response.Errors.Any())
+{
+    <Errors Items="_response.Errors" />
+}
+
+<div class="row">
+    @* <div class="col-md-6 offset-md-3"> *@
+    <EditForm Model="_model" method="post" OnValidSubmit="validSubmit">
+        <DataAnnotationsValidator />
+        @* <h2 class="text-center">@_title</h2> *@
+        <hr />
+        <ValidationSummary class="text-danger" role="alert" />
+
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="_model.UserName" class="form-control" autocomplete="UserName" aria-required="true" placeholder="UserName" />
+            <label for="UserName">UserName</label>
+            <ValidationMessage For="() => _model.UserName" class="text-danger" />
+        </div>
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="_model.Email" class="form-control" autocomplete="Email" aria-required="true" placeholder="Email" />
+            <label for="Email">Email</label>
+            <ValidationMessage For="() => _model.Email" class="text-danger" />
+        </div>
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="_model.Phone" class="form-control" autocomplete="Phone" aria-required="true" placeholder="Phone" />
+            <label for="Phone">Phone</label>
+            <ValidationMessage For="() => _model.Phone" class="text-danger" />
+        </div>
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="_model.FirstName" class="form-control" autocomplete="FirstName" aria-required="true" placeholder="Phone" />
+            <label for="FirstName">FirstName</label>
+            <ValidationMessage For="() => _model.FirstName" class="text-danger" />
+        </div>
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="_model.LastName" class="form-control" autocomplete="LastName" aria-required="true" placeholder="LastName" />
+            <label for="LastName">LastName</label>
+            <ValidationMessage For="() => _model.LastName" class="text-danger" />
+        </div>
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="_model.Password" class="form-control" autocomplete="Password" aria-required="true" placeholder="Password" type="password" />
+            <label for="UserName">Password</label>
+            <ValidationMessage For="() => _model.Password" class="text-danger" />
+        </div>
+
+        <button type="submit" class="w-100 btn btn-primary">Submit</button>
+        <a class="w-100 btn btn-light mt-3" href="auth/login">Login</a>
+    </EditForm>
+    @* </div> *@
+</div>
 
 @code {
+    private string _title = "Register";
+    private bool _loading = true;
+    private ResponseDto? _response;
 
+    private RegisterDto _model = new();
+
+    private async Task validSubmit()
+    {
+        _response = await _service.Register(_model);
+
+        if (_response is not null && _response.IsSuccessful)
+        {
+            _navigationManager.NavigateTo("/auth/login");
+        }
+        else
+        {
+            await _js.ToastrError(_response!.Errors.First());
+        }
+    }
 }

@@ -2,6 +2,7 @@
 using Shared;
 using Shared.Dtos.Auth;
 using Shared.Front;
+using static System.Net.WebRequestMethods;
 
 namespace BlazorWasm.Services
 {
