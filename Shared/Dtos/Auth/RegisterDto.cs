@@ -18,5 +18,6 @@ namespace Shared.Dtos.Auth
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
+        public string? Role { get; set; } = string.Empty;
     }
 }

@@ -46,5 +46,16 @@ namespace AuthApi.Controllers
             _response.Result = loginResponse;
             return Ok(_response);
         }
+
+        [HttpPost("AssignToRole")]
+        public async Task<IActionResult> AssignToRole([FromBody] RegisterDto dto)
+        {
+            _response = await _authService.AssignToRole(dto.UserName, dto.Role);
+            if (_response.IsSuccessful)
+            {
+                return Ok(_response);
+            }
+            return BadRequest(_response);
+        }
     }
 }
