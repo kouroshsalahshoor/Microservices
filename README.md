@@ -5,8 +5,9 @@
 ---
 ## 
 * microservices with Web API
-
-
+* AuthApi with jwt token & roles
+* Blazor Wasm
+  
 ---
 ## Technologies:
 * .Net 8
