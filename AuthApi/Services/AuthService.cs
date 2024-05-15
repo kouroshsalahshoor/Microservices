@@ -75,9 +75,31 @@ namespace AuthApi.Services
                 };
             }
         }
-        public Task<LoginResponseDto> Login(LoginDto dto)
+        public async Task<LoginResponseDto> Login(LoginDto dto)
         {
-            throw new NotImplementedException();
+            var user = await _db.ApplicationUsers.FirstOrDefaultAsync(x=> x.UserName!.ToLower() == dto.UserName.ToLower());
+            var isValid = await _userManager.CheckPasswordAsync(user, dto.Password);
+            if (user is null || isValid == false)
+            {
+                return new LoginResponseDto();
+            }
+
+            //token
+
+
+            return new LoginResponseDto
+            {
+                User = new UserDto
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Phone = user.PhoneNumber,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                },
+                Token=""
+            };
         }
     }
 }
