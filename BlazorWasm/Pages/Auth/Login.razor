@@ -1,0 +1,59 @@
+﻿@page "/auth/login"
+
+@inject IAuthService _service
+
+<PageTitle>@_title</PageTitle>
+
+@* <h1>@_title</h1> *@
+
+@if (_response is not null && _response.Errors.Any())
+{
+    <Errors Items="_response.Errors" />
+}
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <EditForm Model="_model" method="post" OnValidSubmit="validSubmit">
+            <DataAnnotationsValidator />
+            <h2 class="text-center">@_title</h2>
+            <hr />
+            <ValidationSummary class="text-danger" role="alert" />
+
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="_model.UserName" class="form-control" autocomplete="UserName" aria-required="true" placeholder="UserName" />
+                <label for="UserName">UserName</label>
+                <ValidationMessage For="() => _model.UserName" class="text-danger" />
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="_model.Password" class="form-control" autocomplete="Password" aria-required="true" placeholder="Password" type="password" />
+                <label for="UserName">Password</label>
+                <ValidationMessage For="() => _model.Password" class="text-danger" />
+            </div>
+
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Submit</button>
+            @* <a class="w-100 btn btn-lg btn-light mt-3" href="coupons">Back to list</a> *@
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private string _title = "Login";
+    private bool _loading = true;
+    private ResponseDto? _response;
+
+    private LoginDto _model = new();
+
+    private async Task validSubmit()
+    {
+        _response = await _service.Login(_model);
+
+        if (_response is not null && _response.IsSuccessful)
+        {
+            _navigationManager.NavigateTo("/");
+        }
+        else
+        {
+            await _js.ToastrError(_response!.Errors.First());
+        }
+    }
+}

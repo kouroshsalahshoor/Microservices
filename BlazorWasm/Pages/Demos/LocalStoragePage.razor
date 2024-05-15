@@ -1,0 +1,70 @@
+﻿@page "/demos/localstorage"
+@* @using System.Text.Json *@
+
+<PageTitle>@_title</PageTitle>
+
+<h1>@_title</h1>
+
+<InputText class="form-control" @bind-Value=_model.Value />
+
+<div class="m-2">
+    <button class="btn btn-primary" @onclick=setAsync>Set</button>
+    <button class="btn btn-secondary" @onclick=getAsync>Get</button>
+    <button class="btn btn-danger" @onclick=removeAsync>Remove</button>
+</div>
+@code {
+    private string _title = "localstorage";
+    private string _json = string.Empty;
+    private MyData _model = new();
+    private string _storageName = "mydata";
+
+    // Use this method if WASM
+    //protected override async Task OnInitializedAsync()
+    //   => await TryGetAsync();
+
+    private async Task setAsync()
+    {
+        _json = System.Text.Json.JsonSerializer.Serialize<MyData>(_model);
+        await _js.InvokeVoidAsync("localStorage.setItem", _storageName, _json);
+    }
+
+    private async Task getAsync()
+    {
+        if (!await tryGetAsync())
+            _model = new();
+    }
+
+    private async Task<bool> tryGetAsync()
+    {
+        bool hasProperty = await this.hasPropertyAsync();
+        if (hasProperty)
+        {
+            _json = await _js.InvokeAsync<string>("localStorage.getItem", _storageName);
+            _model = System.Text.Json.JsonSerializer.Deserialize<MyData>(_json) ?? new();
+        }
+        return hasProperty;
+    }
+
+    private async Task<bool> hasPropertyAsync()
+        => await _js.InvokeAsync<bool>("localStorage.hasOwnProperty", _storageName);
+
+    private async Task removeAsync()
+    {
+        if (await this.hasPropertyAsync()){
+            await _js.InvokeAsync<string>("localStorage.removeItem", _storageName);
+            _model = new();
+        }
+    }
+
+     // Use this method if Server
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if (firstRender && await TryGetAsync())
+    //        StateHasChanged();
+    //}
+
+    public class MyData
+    {
+        public string? Value { get; set; }
+    }
+}

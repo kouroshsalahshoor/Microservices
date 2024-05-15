@@ -1,8 +1,10 @@
 ﻿using BlazorWasm.Services.IServices;
+using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using Shared;
 using Shared.Front;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace BlazorWam.Services
@@ -10,7 +12,6 @@ namespace BlazorWam.Services
     public class BaseService : IBaseService
     {
         private readonly IHttpClientFactory _httpClientFactory;
-
         public BaseService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
@@ -24,7 +25,7 @@ namespace BlazorWam.Services
                 message.Headers.Add("Accept", "application/json");
 
                 //token
-
+                
                 message.RequestUri = new Uri(dto.Url);
                 if (dto.Data is not null)
                 {
