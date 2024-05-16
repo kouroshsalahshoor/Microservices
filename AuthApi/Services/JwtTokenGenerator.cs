@@ -17,7 +17,7 @@ namespace AuthApi.Services
             _jwtOptions = options.Value;
         }
         //https://jwt.io/
-        public string GenerateToken(ApplicationUser user)
+        public string GenerateToken(ApplicationUser user, List<string> roles)
         {
             var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret);
             var claims = new List<Claim>
@@ -29,11 +29,16 @@ namespace AuthApi.Services
                 new Claim(ClaimTypes.Sid, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName!),
                 new Claim(ClaimTypes.Email, user.Email!),
+
                 new Claim("Phone", user.PhoneNumber!),
                 new Claim("FirstName", user.FirstName),
                 new Claim("LastName", user.LastName),
-                new Claim(ClaimTypes.Role, ""),
+                //new Claim(ClaimTypes.Role, ""),
             };
+
+            foreach (var role in roles!) {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

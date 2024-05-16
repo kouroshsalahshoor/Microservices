@@ -77,6 +77,7 @@
 
     private async Task validSubmit()
     {
+        _loading = true;
         _response = await _service.Register(_model);
 
         if (_response is not null && _response.IsSuccessful)
@@ -90,5 +91,6 @@
         }
         
         await _js.ToastrError(_response!.Errors.First());
+        _loading = false;
     }
 }

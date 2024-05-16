@@ -2,7 +2,6 @@
 using Shared;
 using Shared.Dtos.Auth;
 using Shared.Front;
-using static System.Net.WebRequestMethods;
 
 namespace BlazorWasm.Services
 {
@@ -17,6 +16,11 @@ namespace BlazorWasm.Services
 
         public async Task<ResponseDto?> Register(RegisterDto dto)
         {
+            if (string.IsNullOrEmpty(dto.Role) || (dto.Role != ApplicationConstants.Role_User && dto.Role != ApplicationConstants.Role_Admin))
+            {
+                dto.Role = ApplicationConstants.Role_User;
+            }
+
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = ApiType.Post,
@@ -24,7 +28,7 @@ namespace BlazorWasm.Services
                 Data = dto
             });
         }
-        
+
         public async Task<ResponseDto?> Login(LoginDto dto)
         {
             return await _baseService.SendAsync(new RequestDto()

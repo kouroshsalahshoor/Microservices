@@ -9,5 +9,6 @@
         public static string Role_Admin { get; set; } = "Admin";
 
         public static string Local_Token { get; set; } = "JWT Token";
+        public static string Current_User { get; set; } = "Current User";
     }
 }

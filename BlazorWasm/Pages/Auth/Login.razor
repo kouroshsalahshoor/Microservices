@@ -46,9 +46,12 @@
     private async Task validSubmit()
     {
         _response = await _service.Login(_model);
-
         if (_response is not null && _response.IsSuccessful)
         {
+            LoginResponseDto? loginResponseDto = JsonConvert.DeserializeObject<LoginResponseDto>(Convert.ToString(_response.Result)!);
+            await _js.InvokeVoidAsync("localStorage.setItem", ApplicationConstants.Local_Token, loginResponseDto!.Token);
+            await _js.InvokeVoidAsync("localStorage.setItem", ApplicationConstants.Current_User, loginResponseDto!.User);
+
             _navigationManager.NavigateTo("/");
         }
         else

@@ -2,6 +2,7 @@
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using Shared;
+using Shared.Dtos.Auth;
 using Shared.Front;
 using System.Net;
 using System.Net.Http.Headers;
@@ -11,21 +12,31 @@ namespace BlazorWam.Services
 {
     public class BaseService : IBaseService
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-        public BaseService(IHttpClientFactory httpClientFactory)
+        //private readonly IHttpClientFactory _httpClientFactory;
+        private readonly HttpClient _client;
+        private readonly IJSRuntime _js;
+
+        public BaseService(IHttpClientFactory httpClientFactory, IJSRuntime js)
         {
-            _httpClientFactory = httpClientFactory;
+            _client = httpClientFactory.CreateClient("xClient");
+            //_httpClientFactory = httpClientFactory;
+            _js = js;
         }
         public async Task<ResponseDto?> SendAsync(RequestDto dto)
         {
             try
             {
-                var client = _httpClientFactory.CreateClient("xClient");
+                //var client = _httpClientFactory.CreateClient("xClient");
                 HttpRequestMessage message = new();
                 message.Headers.Add("Accept", "application/json");
 
                 //token
-                
+                var token = await _js.InvokeAsync<string>("localStorage.getItem", ApplicationConstants.Local_Token);
+                if (string.IsNullOrEmpty(token) == false)
+                {
+                    _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+                }
+
                 message.RequestUri = new Uri(dto.Url);
                 if (dto.Data is not null)
                 {
@@ -48,7 +59,7 @@ namespace BlazorWam.Services
                         break;
                 }
 
-                HttpResponseMessage response = await client.SendAsync(message);
+                HttpResponseMessage response = await _client.SendAsync(message);
 
                 switch (response.StatusCode)
                 {
@@ -71,6 +82,13 @@ namespace BlazorWam.Services
                 return new ResponseDto() { IsSuccessful = false, Errors = new List<string> { ex.Message } };
             }
 
+        }
+
+        public async Task Logout()
+        {
+            await _js.InvokeVoidAsync("localStorage.setItem", ApplicationConstants.Local_Token, string.Empty);
+            await _js.InvokeVoidAsync("localStorage.setItem", ApplicationConstants.Current_User, string.Empty);
+            _client.DefaultRequestHeaders.Authorization = null;
         }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared;
 using Shared.Dtos.Auth;
+using System.Reflection.Metadata;
 
 namespace AuthApi.Services
 {
@@ -87,6 +88,8 @@ namespace AuthApi.Services
                 return new LoginResponseDto();
             }
 
+            var roles = await _userManager.GetRolesAsync(user);
+
             return new LoginResponseDto
             {
                 User = new UserDto
@@ -98,7 +101,7 @@ namespace AuthApi.Services
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                 },
-                Token = _jwtTokenGenerator.GenerateToken(user)
+                Token = _jwtTokenGenerator.GenerateToken(user, roles.ToList())
             };
         }
 
