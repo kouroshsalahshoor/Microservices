@@ -12,7 +12,7 @@
                     <span>
                         Welcome
                         @(context.User.Claims.FirstOrDefault(x => x.Type == "name") == null ? "" : context.User.Claims.FirstOrDefault(x => x.Type == "name")!.Value)
-                        @(context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name) == null ? "" : context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)!.Value)
+                        @* @(context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name) == null ? "" : context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)!.Value) *@
                     </span>
                     @* <span>Welcome @context.User.Identity.Name</span> *@
                 </Authorized>
