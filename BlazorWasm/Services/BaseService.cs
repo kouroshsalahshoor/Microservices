@@ -1,8 +1,9 @@
-﻿using BlazorWasm.Services.IServices;
+﻿using BlazorWasm.Services;
+using BlazorWasm.Services.IServices;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using Shared;
-using Shared.Dtos.Auth;
 using Shared.Front;
 using System.Net;
 using System.Net.Http.Headers;
@@ -12,15 +13,15 @@ namespace BlazorWam.Services
 {
     public class BaseService : IBaseService
     {
-        //private readonly IHttpClientFactory _httpClientFactory;
         private readonly HttpClient _client;
         private readonly IJSRuntime _js;
+        private readonly AuthenticationStateProvider _authStateProvider;
 
-        public BaseService(IHttpClientFactory httpClientFactory, IJSRuntime js)
+        public BaseService(IHttpClientFactory httpClientFactory, IJSRuntime js, AuthenticationStateProvider authStateProvider)
         {
             _client = httpClientFactory.CreateClient("xClient");
-            //_httpClientFactory = httpClientFactory;
             _js = js;
+            _authStateProvider = authStateProvider;
         }
         public async Task<ResponseDto?> SendAsync(RequestDto dto)
         {
@@ -34,6 +35,8 @@ namespace BlazorWam.Services
                 var token = await _js.InvokeAsync<string>("localStorage.getItem", ApplicationConstants.Local_Token);
                 if (string.IsNullOrEmpty(token) == false)
                 {
+                    ((AuthStateProvider)_authStateProvider).NotifyUserLogin(token);
+
                     _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
                 }
 
@@ -81,13 +84,15 @@ namespace BlazorWam.Services
             {
                 return new ResponseDto() { IsSuccessful = false, Errors = new List<string> { ex.Message } };
             }
-
         }
 
         public async Task Logout()
         {
             await _js.InvokeVoidAsync("localStorage.setItem", ApplicationConstants.Local_Token, string.Empty);
             await _js.InvokeVoidAsync("localStorage.setItem", ApplicationConstants.Current_User, string.Empty);
+
+            ((AuthStateProvider)_authStateProvider).NotifyUserLogout();
+
             _client.DefaultRequestHeaders.Authorization = null;
         }
     }

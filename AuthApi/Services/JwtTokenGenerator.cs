@@ -30,6 +30,7 @@ namespace AuthApi.Services
                 new Claim(ClaimTypes.Name, user.UserName!),
                 new Claim(ClaimTypes.Email, user.Email!),
 
+                new Claim("Name", user.UserName!),
                 new Claim("Phone", user.PhoneNumber!),
                 new Claim("FirstName", user.FirstName),
                 new Claim("LastName", user.LastName),
