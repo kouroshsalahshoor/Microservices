@@ -1,6 +1,7 @@
 ﻿@page "/auth/login"
 
 @inject IAuthService _service
+@inject AuthenticationStateProvider _authStateProvider
 
 <PageTitle>@_title</PageTitle>
 
@@ -51,6 +52,8 @@
             LoginResponseDto? loginResponseDto = JsonConvert.DeserializeObject<LoginResponseDto>(Convert.ToString(_response.Result)!);
             await _js.InvokeVoidAsync("localStorage.setItem", ApplicationConstants.Local_Token, loginResponseDto!.Token);
             await _js.InvokeVoidAsync("localStorage.setItem", ApplicationConstants.Current_User, loginResponseDto!.User);
+
+            ((AuthStateProvider)_authStateProvider).NotifyUserLogin(loginResponseDto!.Token);
 
             _navigationManager.NavigateTo("/");
         }

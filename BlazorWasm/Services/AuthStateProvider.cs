@@ -34,5 +34,19 @@ namespace BlazorWasm.Services
             //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaims(token), "jwtAuthType")));
         }
+
+        public void NotifyUserLogin(string token)
+        {
+            var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaims(token), "jwtAuthType"));
+            var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
+            NotifyAuthenticationStateChanged(authState);
+        }
+
+        public void NotifyUserLogout()
+        {
+            var unAuthenticatedUser = new ClaimsPrincipal(new ClaimsIdentity());
+            var authState = Task.FromResult(new AuthenticationState(unAuthenticatedUser));
+            NotifyAuthenticationStateChanged(authState);
+        }
     }
 }

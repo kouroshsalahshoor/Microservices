@@ -1,4 +1,5 @@
 ﻿using BlazorWasm.Services.IServices;
+using Microsoft.JSInterop;
 using Shared;
 using Shared.Dtos.Auth;
 using Shared.Front;
