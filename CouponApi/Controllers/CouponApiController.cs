@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shared;
 using Shared.Dtos;
+using Shared.Front;
 
 namespace CouponApi.Controllers
 {
@@ -82,6 +83,7 @@ namespace CouponApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = ApplicationConstants.Role_Admin)]
         public async Task<ResponseDto> Post([FromBody] CouponDto dto)
         {
             try

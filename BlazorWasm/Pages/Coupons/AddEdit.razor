@@ -55,11 +55,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await _authState;
-        if (authState.User.Claims.Any(x=>x.Type == "role" && x.Value == ApplicationConstants.Role_Admin) == false)
-        {
-            _navigationManager.NavigateTo("accessdenied");
-        }
+        // var authState = await _authState;
+        // if (authState.User.Claims.Any(x=>x.Type == "role" && x.Value == ApplicationConstants.Role_Admin) == false)
+        // {
+        //     _navigationManager.NavigateTo("accessdenied");
+        // }
 
         if (Id > 0)
         {
@@ -83,16 +83,22 @@
         if (Id > 0)
         {
             _response = await _service.Update(_model);
-            await _js.ToastrSuccess("Updated");
         }
         else
         {
             _response = await _service.Create(_model);
-            await _js.ToastrSuccess("Created");
         }
 
         if (_response is not null && _response.IsSuccessful)
         {
+            if (Id > 0)
+            {
+                await _js.ToastrSuccess("Updated");
+            }
+            else
+            {
+                await _js.ToastrSuccess("Created");
+            }
             _navigationManager.NavigateTo("coupons");
         }
         else
