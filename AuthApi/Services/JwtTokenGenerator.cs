@@ -34,7 +34,6 @@ namespace AuthApi.Services
                 new Claim("Phone", user.PhoneNumber!),
                 new Claim("FirstName", user.FirstName),
                 new Claim("LastName", user.LastName),
-                //new Claim(ClaimTypes.Role, ""),
             };
 
             foreach (var role in roles!) {

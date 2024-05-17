@@ -44,6 +44,8 @@
 
 @code {
     [Parameter] public int Id { get; set; }
+    [CascadingParameter]
+    public Task<AuthenticationState> _authState { get; set; }
 
     private string _title = "Create Coupon";
     private bool _loading = true;
@@ -53,6 +55,12 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await _authState;
+        if (authState.User.Claims.Any(x=>x.Type == "role" && x.Value == ApplicationConstants.Role_Admin) == false)
+        {
+            _navigationManager.NavigateTo("accessdenied");
+        }
+
         if (Id > 0)
         {
             _title = "Edit Coupon";
