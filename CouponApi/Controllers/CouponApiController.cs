@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CouponApi.Data;
 using CouponApi.Models;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shared;
@@ -13,6 +13,7 @@ namespace CouponApi.Controllers
     //[Route("api/couponx")]
     //[Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CouponApiController : ControllerBase
     {
         private readonly ApplicationDbContext _db;
@@ -49,7 +50,7 @@ namespace CouponApi.Controllers
         {
             try
             {
-                var model = await _db.Coupons.FirstAsync(x=>x.Id == id);
+                var model = await _db.Coupons.FirstAsync(x => x.Id == id);
                 _response.IsSuccessful = true;
                 _response.Result = _mapper.Map<CouponDto>(model);
             }
