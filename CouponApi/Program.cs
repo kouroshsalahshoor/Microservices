@@ -4,8 +4,9 @@ using CouponApi.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Shared;
+using Microsoft.OpenApi.Models;
 using System.Text;
+using static System.Collections.Specialized.BitVector32;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,31 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition(name: JwtBearerDefaults.AuthenticationScheme, securityScheme: new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "Please enter the Bearer Athorization string: 'Bearer JWT-Token'",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = JwtBearerDefaults.AuthenticationScheme
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference=new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = JwtBearerDefaults.AuthenticationScheme
+                }
+            },
+            new string[]{}
+        }
+    });
+});
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
     throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -37,9 +62,13 @@ builder.Services.AddCors(options =>
                 });
 });
 
-var secret = builder.Configuration.GetValue<string>("JwtOptions:Secret");
-var issuer = builder.Configuration.GetValue<string>("JwtOptions:Issuer");
-var audience = builder.Configuration.GetValue<string>("JwtOptions:Audience");
+var section = builder.Configuration.GetSection("JwtOptions");
+var secret = section.GetValue<string>("Secret");
+var issuer = section.GetValue<string>("Issuer");
+var audience = section.GetValue<string>("Audience");
+//var secret = builder.Configuration.GetValue<string>("JwtOptions:Secret");
+//var issuer = builder.Configuration.GetValue<string>("JwtOptions:Issuer");
+//var audience = builder.Configuration.GetValue<string>("JwtOptions:Audience");
 var key = Encoding.ASCII.GetBytes(secret);
 
 builder.Services.AddAuthentication(options =>
