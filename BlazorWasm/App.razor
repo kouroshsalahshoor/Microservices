@@ -6,7 +6,8 @@
                     <p>Authorizing...</p>
                 </Authorizing>
                 <NotAuthorized>
-                    <p class="text-danger">Not Authorized!</p>
+                    <RedirectToLogin />
+                    @* <p class="text-danger">Not Authorized!</p> *@
                 </NotAuthorized>
             </AuthorizeRouteView>
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
