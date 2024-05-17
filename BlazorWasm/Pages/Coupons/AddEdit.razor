@@ -1,6 +1,8 @@
 ﻿@page "/coupon/create"
 @page "/coupon/edit/{id:int}"
 
+@attribute [Authorize]
+
 @inject ICouponService _service
 
 <PageTitle>@_title</PageTitle>

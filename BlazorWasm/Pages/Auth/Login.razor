@@ -55,7 +55,18 @@
 
             ((AuthStateProvider)_authStateProvider).NotifyUserLogin(loginResponseDto!.Token);
 
-            _navigationManager.NavigateTo("/");
+            var absoultUri = new Uri(_navigationManager.Uri);
+            var queryParam = HttpUtility.ParseQueryString(absoultUri.Query);
+            var returnUrl = queryParam["returnUrl"];
+
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                _navigationManager.NavigateTo("/");
+            }
+            else
+            {
+                _navigationManager.NavigateTo(returnUrl);
+            }
         }
         else
         {
