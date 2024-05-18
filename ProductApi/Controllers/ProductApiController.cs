@@ -62,7 +62,7 @@ namespace ProductApi.Controllers
             return _response;
         }
 
-        [HttpGet("getbycategory/{category}")]
+        [HttpGet("category/{category}")]
         public async Task<ResponseDto> Get(string category)
         {
             try
