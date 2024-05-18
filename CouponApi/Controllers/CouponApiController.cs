@@ -64,7 +64,7 @@ namespace CouponApi.Controllers
             return _response;
         }
 
-        [HttpGet("getbycode/{code}")]
+        [HttpGet("code/{code}")]
         public async Task<ResponseDto> Get(string code)
         {
             try
