@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWasm", "BlazorWasm\Bl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthApi", "AuthApi\AuthApi.csproj", "{F4E3F8F1-B6EF-4A17-ABBE-91E4A238B4C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductApi", "ProductApi\ProductApi.csproj", "{AE1618F6-BA59-4205-BA6C-E216A985CE92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{F4E3F8F1-B6EF-4A17-ABBE-91E4A238B4C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4E3F8F1-B6EF-4A17-ABBE-91E4A238B4C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4E3F8F1-B6EF-4A17-ABBE-91E4A238B4C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE1618F6-BA59-4205-BA6C-E216A985CE92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE1618F6-BA59-4205-BA6C-E216A985CE92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE1618F6-BA59-4205-BA6C-E216A985CE92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE1618F6-BA59-4205-BA6C-E216A985CE92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +58,7 @@ Global
 		{D7D3CBC6-B295-453C-93BB-7B8608477611} = {31EFAC72-CC32-46D4-8319-16E025FA55C8}
 		{F8148046-E41A-41AC-B079-81D925EC3AE3} = {66F902FB-717A-4DAA-A079-81D9D980116F}
 		{F4E3F8F1-B6EF-4A17-ABBE-91E4A238B4C2} = {3C33B7E5-1D6A-4711-85AC-23A83B81DE60}
+		{AE1618F6-BA59-4205-BA6C-E216A985CE92} = {3C33B7E5-1D6A-4711-85AC-23A83B81DE60}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1E060608-4AE3-4A54-9C05-D91B06763846}

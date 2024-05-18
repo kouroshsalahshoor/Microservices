@@ -1,27 +1,25 @@
 ﻿using AutoMapper;
-using CouponApi.Data;
-using CouponApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProductApi.Data;
+using ProductApi.Models;
 using Shared;
 using Shared.Dtos;
 using Shared.Front;
 
-namespace CouponApi.Controllers
+namespace ProductApi.Controllers
 {
-    [Route("api/coupon")]
-    //[Route("api/couponx")]
-    //[Route("api/[controller]")]
+    [Route("api/product")]
     [ApiController]
     [Authorize]
-    public class CouponApiController : ControllerBase
+    public class ProductApiController : ControllerBase
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
         private readonly ResponseDto _response;
 
-        public CouponApiController(ApplicationDbContext db, IMapper mapper)
+        public ProductApiController(ApplicationDbContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;
@@ -33,9 +31,9 @@ namespace CouponApi.Controllers
         {
             try
             {
-                var models = await _db.Coupons.ToListAsync();
+                var models = await _db.Products.ToListAsync();
                 _response.IsSuccessful = true;
-                _response.Result = _mapper.Map<List<CouponDto>>(models);
+                _response.Result = _mapper.Map<List<ProductDto>>(models);
             }
             catch (Exception ex)
             {
@@ -51,9 +49,9 @@ namespace CouponApi.Controllers
         {
             try
             {
-                var model = await _db.Coupons.FirstAsync(x => x.Id == id);
+                var model = await _db.Products.FirstAsync(x => x.Id == id);
                 _response.IsSuccessful = true;
-                _response.Result = _mapper.Map<CouponDto>(model);
+                _response.Result = _mapper.Map<ProductDto>(model);
             }
             catch (Exception ex)
             {
@@ -64,14 +62,14 @@ namespace CouponApi.Controllers
             return _response;
         }
 
-        [HttpGet("getbycode/{code}")]
-        public async Task<ResponseDto> Get(string code)
+        [HttpGet("getbycategory/{category}")]
+        public async Task<ResponseDto> Get(string category)
         {
             try
             {
-                var model = await _db.Coupons.FirstAsync(x => x.Code.ToLower() == code.ToLower());
+                var models = await _db.Products.Where(x => x.Category.ToLower() == category.ToLower()).ToListAsync();
                 _response.IsSuccessful = true;
-                _response.Result = _mapper.Map<CouponDto>(model);
+                _response.Result = _mapper.Map<List<ProductDto>>(models);
             }
             catch (Exception ex)
             {
@@ -84,15 +82,15 @@ namespace CouponApi.Controllers
 
         [HttpPost]
         [Authorize(Roles = ApplicationConstants.Role_Admin)]
-        public async Task<ResponseDto> Post([FromBody] CouponDto dto)
+        public async Task<ResponseDto> Post([FromBody] ProductDto dto)
         {
             try
             {
-                var model = _mapper.Map<Coupon>(dto);
-                await _db.Coupons.AddAsync(model);
+                var model = _mapper.Map<Product>(dto);
+                await _db.Products.AddAsync(model);
                 await _db.SaveChangesAsync();
                 _response.IsSuccessful = true;
-                _response.Result = _mapper.Map<CouponDto>(model);
+                _response.Result = _mapper.Map<ProductDto>(model);
             }
             catch (Exception ex)
             {
@@ -105,15 +103,15 @@ namespace CouponApi.Controllers
 
         [HttpPut]
         [Authorize(Roles = ApplicationConstants.Role_Admin)]
-        public async Task<ResponseDto> Put([FromBody] CouponDto dto)
+        public async Task<ResponseDto> Put([FromBody] ProductDto dto)
         {
             try
             {
-                var model = _mapper.Map<Coupon>(dto);
-                _db.Coupons.Update(model);
+                var model = _mapper.Map<Product>(dto);
+                _db.Products.Update(model);
                 await _db.SaveChangesAsync();
                 _response.IsSuccessful = true;
-                _response.Result = _mapper.Map<CouponDto>(model);
+                _response.Result = _mapper.Map<ProductDto>(model);
             }
             catch (Exception ex)
             {
@@ -130,11 +128,11 @@ namespace CouponApi.Controllers
         {
             try
             {
-                var model = _db.Coupons.First(x => x.Id == id);
-                _db.Coupons.Remove(model);
+                var model = _db.Products.First(x => x.Id == id);
+                _db.Products.Remove(model);
                 await _db.SaveChangesAsync();
                 _response.IsSuccessful = true;
-                _response.Result = _mapper.Map<CouponDto>(model);
+                _response.Result = _mapper.Map<ProductDto>(model);
             }
             catch (Exception ex)
             {
