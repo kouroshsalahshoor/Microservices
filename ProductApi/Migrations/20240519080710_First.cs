@@ -34,11 +34,10 @@ namespace ProductApi.Migrations
                 columns: new[] { "Id", "Category", "Description", "ImageUrl", "Name", "Price" },
                 values: new object[,]
                 {
-                    { 1, "Category 1", "Description for Product 1", "https://placeholder.co/603x403", "Product Name 1", 100.0 },
-                    { 2, "Category 2", "Description for Product 2", "https://placeholder.co/603x403", "Product Name 2", 200.0 },
-                    { 3, "Category 1", "Description for Product 3", "https://placeholder.co/603x403", "Product Name 3", 300.0 },
-                    { 4, "Category 2", "Description for Product 4", "https://placeholder.co/603x403", "Product Name 4", 400.0 },
-                    { 5, "Category 1", "Description for Product 5", "https://placeholder.co/603x403", "Product Name 5", 500.0 }
+                    { 1, "Appetizer", " Quisque vel lacus ac magna, vehicula sagittis ut non lacus.<br/> Vestibulum arcu turpis, maximus malesuada neque. Phasellus commodo cursus pretium.", "https://placehold.co/600x400", "Samosa", 15.0 },
+                    { 2, "Appetizer", " Quisque vel lacus ac magna, vehicula sagittis ut non lacus.<br/> Vestibulum arcu turpis, maximus malesuada neque. Phasellus commodo cursus pretium.", "https://placehold.co/600x400", "Paneer Tikka", 13.99 },
+                    { 3, "Dessert", " Quisque vel lacus ac magna, vehicula sagittis ut non lacus.<br/> Vestibulum arcu turpis, maximus malesuada neque. Phasellus commodo cursus pretium.", "https://placehold.co/600x400", "Sweet Pie", 10.99 },
+                    { 4, "Entree", " Quisque vel lacus ac magna, vehicula sagittis ut non lacus.<br/> Vestibulum arcu turpis, maximus malesuada neque. Phasellus commodo cursus pretium.", "https://placehold.co/600x400", "Pav Bhaji", 15.0 }
                 });
         }
 

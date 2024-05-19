@@ -56,47 +56,38 @@ namespace ProductApi.Migrations
                         new
                         {
                             Id = 1,
-                            Category = "Category 1",
-                            Description = "Description for Product 1",
-                            ImageUrl = "https://placeholder.co/603x403",
-                            Name = "Product Name 1",
-                            Price = 100.0
+                            Category = "Appetizer",
+                            Description = " Quisque vel lacus ac magna, vehicula sagittis ut non lacus.<br/> Vestibulum arcu turpis, maximus malesuada neque. Phasellus commodo cursus pretium.",
+                            ImageUrl = "https://placehold.co/600x400",
+                            Name = "Samosa",
+                            Price = 15.0
                         },
                         new
                         {
                             Id = 2,
-                            Category = "Category 2",
-                            Description = "Description for Product 2",
-                            ImageUrl = "https://placeholder.co/603x403",
-                            Name = "Product Name 2",
-                            Price = 200.0
+                            Category = "Appetizer",
+                            Description = " Quisque vel lacus ac magna, vehicula sagittis ut non lacus.<br/> Vestibulum arcu turpis, maximus malesuada neque. Phasellus commodo cursus pretium.",
+                            ImageUrl = "https://placehold.co/600x400",
+                            Name = "Paneer Tikka",
+                            Price = 13.99
                         },
                         new
                         {
                             Id = 3,
-                            Category = "Category 1",
-                            Description = "Description for Product 3",
-                            ImageUrl = "https://placeholder.co/603x403",
-                            Name = "Product Name 3",
-                            Price = 300.0
+                            Category = "Dessert",
+                            Description = " Quisque vel lacus ac magna, vehicula sagittis ut non lacus.<br/> Vestibulum arcu turpis, maximus malesuada neque. Phasellus commodo cursus pretium.",
+                            ImageUrl = "https://placehold.co/600x400",
+                            Name = "Sweet Pie",
+                            Price = 10.99
                         },
                         new
                         {
                             Id = 4,
-                            Category = "Category 2",
-                            Description = "Description for Product 4",
-                            ImageUrl = "https://placeholder.co/603x403",
-                            Name = "Product Name 4",
-                            Price = 400.0
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Category = "Category 1",
-                            Description = "Description for Product 5",
-                            ImageUrl = "https://placeholder.co/603x403",
-                            Name = "Product Name 5",
-                            Price = 500.0
+                            Category = "Entree",
+                            Description = " Quisque vel lacus ac magna, vehicula sagittis ut non lacus.<br/> Vestibulum arcu turpis, maximus malesuada neque. Phasellus commodo cursus pretium.",
+                            ImageUrl = "https://placehold.co/600x400",
+                            Name = "Pav Bhaji",
+                            Price = 15.0
                         });
                 });
 #pragma warning restore 612, 618
