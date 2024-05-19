@@ -15,18 +15,42 @@ namespace ProductApi.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            for (int i = 1; i <= 5; i++)
+            modelBuilder.Entity<Product>().HasData(new Product
             {
-                modelBuilder.Entity<Product>().HasData(new Product
-                {
-                    Id = i,
-                    Name = "Product Name " + i.ToString(),
-                    Price = i * 100,
-                    Description = "Description for Product " + i.ToString(),
-                    ImageUrl = "https://placeholder.co/603x403",
-                    Category = i % 2 == 0 ? "Category 2" : "Category 1",
-                });
-            }
+                Id = 1,
+                Name = "Samosa",
+                Price = 15,
+                Description = " Quisque vel lacus ac magna, vehicula sagittis ut non lacus.<br/> Vestibulum arcu turpis, maximus malesuada neque. Phasellus commodo cursus pretium.",
+                ImageUrl = "https://placehold.co/603x403",
+                Category = "Appetizer"
+            });
+            modelBuilder.Entity<Product>().HasData(new Product
+            {
+                Id = 2,
+                Name = "Paneer Tikka",
+                Price = 13.99,
+                Description = " Quisque vel lacus ac magna, vehicula sagittis ut non lacus.<br/> Vestibulum arcu turpis, maximus malesuada neque. Phasellus commodo cursus pretium.",
+                ImageUrl = "https://placehold.co/602x402",
+                Category = "Appetizer"
+            });
+            modelBuilder.Entity<Product>().HasData(new Product
+            {
+                Id = 3,
+                Name = "Sweet Pie",
+                Price = 10.99,
+                Description = " Quisque vel lacus ac magna, vehicula sagittis ut non lacus.<br/> Vestibulum arcu turpis, maximus malesuada neque. Phasellus commodo cursus pretium.",
+                ImageUrl = "https://placehold.co/601x401",
+                Category = "Dessert"
+            });
+            modelBuilder.Entity<Product>().HasData(new Product
+            {
+                Id = 4,
+                Name = "Pav Bhaji",
+                Price = 15,
+                Description = " Quisque vel lacus ac magna, vehicula sagittis ut non lacus.<br/> Vestibulum arcu turpis, maximus malesuada neque. Phasellus commodo cursus pretium.",
+                ImageUrl = "https://placehold.co/600x400",
+                Category = "Entree"
+            });
         }
     }
 }

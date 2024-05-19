@@ -7,7 +7,7 @@
 
 <PageTitle>@_title</PageTitle>
 
-<h1>@_title</h1>
+<h1 class="px-3 text-light bg-@(Id > 0 ? "warning" : "primary")">@_title</h1>
 
 @if (_response is not null && _response.Errors.Any())
 {
@@ -37,9 +37,14 @@
             <ValidationMessage For="() => _model.Category" class="text-danger" />
         </div>
         <div class="form-floating mb-3">
-            <InputText @bind-Value="_model.Description" class="form-control" autocomplete="Description" aria-required="true" placeholder="Description" />
+            <InputTextArea @bind-Value="_model.Description" class="form-control" autocomplete="Description" aria-required="true" placeholder="Description" style="min-height:100px" />
             <label for="Category">Description</label>
             <ValidationMessage For="() => _model.Description" class="text-danger" />
+        </div>
+        <div class="form-floating mb-3">
+            <InputText @bind-Value="_model.ImageUrl" class="form-control" autocomplete="ImageUrl" aria-required="true" placeholder="ImageUrl" />
+            <label for="ImageUrl">ImageUrl</label>
+            <ValidationMessage For="() => _model.ImageUrl" class="text-danger" />
         </div>
 
         <button type="submit" class="w-100 btn btn-primary">Submit</button>
@@ -68,7 +73,7 @@
 
         if (Id > 0)
         {
-            _title = "Edit product";
+            _title = "Edit Product";
 
             _response = await _service.Get(Id);
             if (_response is not null && _response.IsSuccessful)

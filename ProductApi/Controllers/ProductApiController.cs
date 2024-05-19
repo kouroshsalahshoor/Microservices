@@ -27,6 +27,7 @@ namespace ProductApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ResponseDto> Get()
         {
             try
