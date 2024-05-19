@@ -34,8 +34,7 @@ else
                                 <p class="card-text">@((MarkupString)item.Description)</p>
                                 <div class="row">
                                     <div class="col">
-                                        <a asp-action="itemDetails" asp-route-itemId="@item.Id"
-                                           class="btn btn-success form-control">Details</a>
+                                        <a href="product/@item.Id" class="btn btn-success form-control">Details</a>
                                     </div>
                                 </div>
                             </div>
