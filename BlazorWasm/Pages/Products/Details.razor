@@ -11,33 +11,35 @@
 }
 else
 {
+    <EditForm Model="_model">
+        <DataAnnotationsValidator />
         <div class=" pt-4">
             <div class="card container" style="border:1px solid #808080;">
                 <div class="card-header bg-dark text-light row" style="border-radius: 0px;">
                     <div class="col-12 col-md-6">
-                        <h1 class="text-white">@model.Name</h1>
+                        <h1 class="text-white">@_model.Name</h1>
                     </div>
                     <div class="col-12 col-md-6 text-end">
-                        <h1 class="text-warning"> @string.Format("{0:c}", model.Price)</h1>
+                        <h1 class="text-warning"> @string.Format("{0:c}", _model.Price)</h1>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="container rounded p-2">
                         <div class="row">
                             <div class="col-12 col-lg-4 p-1 text-center">
-                                <img src="@model.ImageUrl" style="border-radius:35px;" width="100%" class="rounded" />
+                                <img src="@_model.ImageUrl" style="border-radius:35px;" width="100%" class="rounded" />
                             </div>
                             <div class="col-12 col-lg-8">
                                 <div class="row pl-3">
 
                                     <div class="col-12">
-                                        <span class="badge bg-primary text-white p-3 border">@model.Category</span>
-                                        <p class="text-secondary pt-3">@((MarkupString)model.Description)</p>
+                                        <span class="badge bg-primary text-white p-3 border">@_model.Category</span>
+                                        <p class="text-secondary pt-3">@((MarkupString)_model.Description)</p>
                                     </div>
                                 </div>
                                 <div class="row mx-0">
-                                    <input asp-for="Count" class="form-control" />
-                                    <span asp-validation-for="Count" class="text-danger"></span>
+                                    <InputNumber class="form-control" @bind-Value="_model.Count" />
+                                    <ValidationMessage For="() => _model.Count" class="text-danger" />
                                 </div>
                             </div>
                         </div>
@@ -53,12 +55,13 @@ else
                 </div>
             </div>
         </div>
+    </EditForm>
 }
 
 @code {
     [Parameter]
     public int Id { get; set; }
-    private ProductDto? model = new();
+    private ProductDto? _model = new();
     private string _title = "Product Details";
     private bool _loading = false;
 
@@ -69,7 +72,7 @@ else
 
         if (response is not null && response.IsSuccessful)
         {
-            model = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(response.Result));
+            _model = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(response.Result));
         }
         else
         {
