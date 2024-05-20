@@ -25,7 +25,7 @@ namespace CartApi.Controllers
         }
 
         [HttpPost("addedit")]
-        public async Task<ResponseDto> AddEdit(CartDto dto)
+        public async Task<ResponseDto> AddEdit([FromBody] CartDto dto)
         {
             try
             {
@@ -70,6 +70,31 @@ namespace CartApi.Controllers
                     }
                 }
                 _response.Result = dto;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccessful = false;
+                _response.Errors.Add(ex.Message);
+            }
+            return _response;
+        }
+
+        [HttpPost("remove")]
+        public async Task<ResponseDto> Remove([FromBody] int cartDetailsId)
+        {
+            try
+            {
+                var cartDetail = await _db.CartDetails.FirstAsync(x => x.Id == cartDetailsId);
+                _db.CartDetails.Remove(cartDetail);
+
+                int count = _db.CartDetails.Where(x=>x.CartHeaderId == cartDetail.CartHeaderId).Count();
+                if (count == 1) {
+                    var cartHeader = await _db.CartHeaders.FirstOrDefaultAsync(x=>x.Id == cartDetail.CartHeaderId);
+                    _db.CartHeaders.Remove(cartHeader);
+                }
+                await _db.SaveChangesAsync();
+
+                _response.Result = true;
             }
             catch (Exception ex)
             {
