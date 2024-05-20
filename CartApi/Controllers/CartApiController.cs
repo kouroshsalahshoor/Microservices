@@ -24,7 +24,31 @@ namespace CartApi.Controllers
             _response = new();
         }
 
-        [HttpPost("addedit")]
+        [HttpGet("{userId}")]
+        public async Task<ResponseDto> Get(string userId)
+        {
+            try
+            {
+                var cart = new CartDto();
+                cart.CartHeader = _mapper.Map<CartHeaderDto>(await _db.CartHeaders.FirstAsync(x=> x.UserId == userId));
+                cart.CartDetails = _mapper.Map<List<CartDetailDto>>(await _db.CartDetails.Where(x=> x.CartHeaderId == cart.CartHeader.Id).ToListAsync());
+
+                foreach (var item in cart.CartDetails)
+                {
+                    cart.CartHeader.Total += item.Count * item.Product.Price;
+                }
+
+                _response.Result = cart;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccessful = false;
+                _response.Errors.Add(ex.Message);
+            }
+            return _response;
+        }
+
+            [HttpPost("addedit")]
         public async Task<ResponseDto> AddEdit([FromBody] CartDto dto)
         {
             try
