@@ -89,7 +89,10 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddHttpClient("Products", x => x.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductApi"]));
+builder.Services.AddHttpClient("Coupons", x => x.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponApi"]));
+
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICouponService, CouponService>();
 
 var app = builder.Build();
 
