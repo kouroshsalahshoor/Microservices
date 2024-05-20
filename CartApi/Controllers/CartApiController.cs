@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CartApi.Data;
 using CartApi.Models;
+using CartApi.Services.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +16,14 @@ namespace CartApi.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
+        private readonly IProductService _productService;
         private readonly ResponseDto _response;
 
-        public CartApiController(ApplicationDbContext db, IMapper mapper)
+        public CartApiController(ApplicationDbContext db, IMapper mapper, IProductService productService)
         {
             _db = db;
             _mapper = mapper;
+            _productService = productService;
             _response = new();
         }
 
@@ -33,8 +36,11 @@ namespace CartApi.Controllers
                 cart.CartHeader = _mapper.Map<CartHeaderDto>(await _db.CartHeaders.FirstAsync(x=> x.UserId == userId));
                 cart.CartDetails = _mapper.Map<List<CartDetailDto>>(await _db.CartDetails.Where(x=> x.CartHeaderId == cart.CartHeader.Id).ToListAsync());
 
+                var productDtos = await _productService.Get();
+
                 foreach (var item in cart.CartDetails)
                 {
+                    item.Product = productDtos.FirstOrDefault(x=> x.Id == item.ProductId);
                     cart.CartHeader.Total += item.Count * item.Product.Price;
                 }
 

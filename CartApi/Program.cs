@@ -1,6 +1,8 @@
 using AutoMapper;
 using CartApi.Data;
 using CartApi.Infrastructure;
+using CartApi.Services;
+using CartApi.Services.IServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -85,6 +87,9 @@ builder.Services.AddAuthentication(options =>
         };
     });
 builder.Services.AddAuthorization();
+
+builder.Services.AddHttpClient("Products", x => x.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductApi"]));
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
