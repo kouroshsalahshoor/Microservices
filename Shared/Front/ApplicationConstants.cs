@@ -5,6 +5,7 @@
         public static string ProductApi { get; set; } = string.Empty;
         public static string CouponApi { get; set; } = string.Empty;
         public static string AuthApi { get; set; } = string.Empty;
+        public static string CarthApi { get; set; } = string.Empty;
 
         public const string Role_User = "User";
         public const string Role_Admin = "Admin";
