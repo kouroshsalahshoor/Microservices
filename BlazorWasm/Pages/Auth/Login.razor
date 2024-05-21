@@ -1,4 +1,5 @@
 ﻿@page "/auth/login"
+@using System.Text
 
 @inject IAuthService _service
 @inject AuthenticationStateProvider _authStateProvider
@@ -51,7 +52,11 @@
         {
             LoginResponseDto? loginResponseDto = JsonConvert.DeserializeObject<LoginResponseDto>(Convert.ToString(_response.Result)!);
             await _js.InvokeVoidAsync("localStorage.setItem", ApplicationConstants.Local_Token, loginResponseDto!.Token);
-            await _js.InvokeVoidAsync("localStorage.setItem", ApplicationConstants.Current_User, loginResponseDto!.User);
+
+            // var json = System.Text.Json.JsonSerializer.Serialize<UserDto>(loginResponseDto.User!);
+            // await _js.InvokeVoidAsync("localStorage.setItem", ApplicationConstants.Current_User, json);
+            var json = JsonConvert.SerializeObject(loginResponseDto!.User);
+            await _js.InvokeVoidAsync("localStorage.setItem", ApplicationConstants.Current_User, json);
 
             ((AuthStateProvider)_authStateProvider).NotifyUserLogin(loginResponseDto!.Token);
 

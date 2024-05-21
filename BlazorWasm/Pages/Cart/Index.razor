@@ -1,0 +1,80 @@
+﻿@page "/cart"
+@inject ICartService _service
+@inject AuthenticationStateProvider _authStateProvider
+@attribute [Authorize]
+
+<PageTitle>@_title</PageTitle>
+
+<h1>@_title</h1>
+
+@if (_response is not null && _response.Errors.Any())
+{
+    <Errors Items="_response.Errors" />
+}
+
+@if (_loading == true)
+{
+    <p>loading ...</p>
+}
+else
+{
+    @* if (_items is not null)
+    {
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Code</th>
+                    <th scope="col">DiscountAmount</th>
+                    <th scope="col">MinAmount</th>
+                    <th scope="col" style="width:300px;"><a class="w-100 btn btn-primary" href="coupon/create">Create</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in _items)
+                {
+                    <tr>
+                        <th scope="row">@item.Id</th>
+                        <td>@item.Code</td>
+                        <td>@item.DiscountAmount</td>
+                        <td>@item.MinAmount</td>
+                        <td>
+                            <a class="btn btn-warning float-end m-1" href="coupon/edit/@item.Id">Edit</a>
+                            <button class="btn btn-danger float-end m-1" @onclick="@(async () => await delete(item.Id))">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    } *@
+}
+
+@code {
+    private string _title = "Cart";
+    private bool _loading = true;
+    private ResponseDto? _response;
+
+    private CartDto? _model = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        var userId = authState.User.Claims.Where(x => x.Type.ToLower() == "sub")?.FirstOrDefault()?.Value;
+        var userId2 = authState.User.Claims.Where(x => x.Type.ToLower() == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
+        var userId3 = authState.User.Claims.Where(x => x.Type.ToLower() == ClaimTypes.Sid)?.FirstOrDefault()?.Value;
+
+        var json = await _js.InvokeAsync<string>("localStorage.getItem", ApplicationConstants.Current_User);
+        // UserDto userDto = System.Text.Json.JsonSerializer.Deserialize<UserDto>(json) ?? new();
+        UserDto userDto = JsonConvert.DeserializeObject<UserDto>(json) ?? new();
+
+        var response = await _service.Get(userId);
+        if (response is not null && response.IsSuccessful)
+        {
+            _model = JsonConvert.DeserializeObject<CartDto>(Convert.ToString(response.Result)!) ?? new();
+        }
+
+        _loading = true;
+
+    }
+
+}
