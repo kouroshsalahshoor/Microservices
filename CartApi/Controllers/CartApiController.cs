@@ -2,7 +2,6 @@
 using CartApi.Data;
 using CartApi.Models;
 using CartApi.Services.IServices;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shared;
@@ -74,25 +73,6 @@ namespace CartApi.Controllers
             {
                 var cartHeader = await _db.CartHeaders.FirstAsync(x => x.UserId == dto.CartHeader.UserId);
                 cartHeader.CouponCode = dto.CartHeader?.CouponCode;
-                _db.CartHeaders.Update(cartHeader);
-                await _db.SaveChangesAsync();
-                _response.Result = true;
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccessful = false;
-                _response.Errors.Add(ex.Message);
-            }
-            return _response;
-        }
-
-        [HttpPost("removecoupon")]
-        public async Task<ResponseDto> RemoveCoupon([FromBody] CartDto dto)
-        {
-            try
-            {
-                var cartHeader = await _db.CartHeaders.FirstAsync(x => x.UserId == dto.CartHeader.UserId);
-                cartHeader.CouponCode = "";
                 _db.CartHeaders.Update(cartHeader);
                 await _db.SaveChangesAsync();
                 _response.Result = true;

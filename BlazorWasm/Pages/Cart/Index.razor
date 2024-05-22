@@ -17,35 +17,104 @@
 }
 else
 {
-    @* if (_items is not null)
+    @if (_model.CartHeader != null && _model.CartDetails?.Count() > 0)
     {
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Code</th>
-                    <th scope="col">DiscountAmount</th>
-                    <th scope="col">MinAmount</th>
-                    <th scope="col" style="width:300px;"><a class="w-100 btn btn-primary" href="coupon/create">Create</a></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in _items)
-                {
-                    <tr>
-                        <th scope="row">@item.Id</th>
-                        <td>@item.Code</td>
-                        <td>@item.DiscountAmount</td>
-                        <td>@item.MinAmount</td>
-                        <td>
-                            <a class="btn btn-warning float-end m-1" href="coupon/edit/@item.Id">Edit</a>
-                            <button class="btn btn-danger float-end m-1" @onclick="@(async () => await delete(item.Id))">Delete</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    } *@
+        <EditForm Model="_model.CartHeader" OnValidSubmit="validSubmit">
+            <div class="">
+                <div class="card border mt-4 container">
+                    <div class="card-header bg-dark text-light ml-0 row ">
+                        <div class="col-6">
+                            <h3 class="text-success"><i class="bi bi-cart"></i> &nbsp; Shopping Cart</h3>
+                        </div>
+                        <div class="col-6 text-end">
+                            <a href="/" class="btn btn-outline-warning mt-2 btn-sm">Continue Shopping</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class=" d-none d-lg-block">
+                            <div class="row text-info">
+                                <div class="col-lg-2">
+                                </div>
+                                <div class="col-lg-5">
+                                    Product Details
+                                </div>
+                                <div class="col-lg-2">
+                                    Price
+                                </div>
+                                <div class="col-lg-2">
+                                    Count
+                                </div>
+                                <div class="col-lg-1">
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+
+                        @foreach (var item in _model.CartDetails)
+                        {
+                            <div class="row h-100">
+                                <div class="col-4 col-md-2 text-center py-2">
+                                    <img src="@item.Product!.ImageUrl" class="rounded" width="100%" />
+                                </div>
+                                <div class="col-8 col-md-5">
+                                    <h5>@item.Product.Name</h5>
+                                    <div style="font-size:11px;">@((MarkupString)item.Product.Description)</div>
+                                </div>
+                                <div class="col-3 col-md-2 pt-md-4" style="font-size:11px;">
+                                    <span style="font-size:17px;">@string.Format("{0:c}", item.Product.Price) </span>
+                                </div>
+                                <div class="col-3 col-md-2 pt-md-4" style="font-size:11px;">
+                                    <span style="font-size:17px;"> @item.Count</span>
+                                </div>
+                                <div class="col-2 col-lg-1 p-0 pt-lg-4 text-center">
+                                    <a class="btn btn-sm btn-danger" @onclick="async () => await remove(item.Id)">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        <hr />
+                        <div class="row">
+                            <div class="col-6">
+                                <span>Coupon:</span>
+                                @if (string.IsNullOrEmpty(_model.CartHeader.CouponCode))
+                                {
+                                    <InputText @bind-Value="_couponCode" />
+                                    <a class="btn btn-sm btn-success" @onclick="applyCoupon"> Apply </a>
+                                }
+                                else
+                                {
+                                    <InputText @bind-Value="_model.CartHeader.CouponCode" disabled />
+                                    <a class="btn btn-sm btn-danger" @onclick="removeCoupon"> Remove </a>
+                                }
+                            </div>
+                            <div class="col-6 text-end">
+                                <span class="text-danger" style="font-size:21px;">  Order Total :  @string.Format("{0:c}", _model.CartHeader.Total)  <br /></span>
+                                @if (_model.CartHeader.Discount > 0)
+                                {
+                                    <span class="text-success"> Order Discount :   @string.Format("{0:c}", _model.CartHeader.Discount) </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer row">
+                        <div class="col-6 col-md-3 ">
+                            <button class="btn btn-outline-danger form-control">Email Cart</button>
+                        </div>
+                        <div class="col-6 col-md-3 offset-md-6">
+                            <a class="btn btn-success form-control">Looks Good? </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    }
+    else
+    {
+        <div>
+            <p>Please add items to cart.</p>
+        </div>
+    }
 }
 
 @code {
@@ -53,11 +122,18 @@ else
     private bool _loading = true;
     private ResponseDto? _response;
 
-    private CartDto? _model = null;
+    private CartDto? _model = new();
+
+    private string? _currentUserId;
+    private string? _couponCode;
 
     protected override async Task OnInitializedAsync()
     {
+        _loading = true;
+
         var authState = await _authStateProvider.GetAuthenticationStateAsync();
+        _currentUserId = authState.User.Claims.Where(x => x.Type.ToLower() == "sub")?.FirstOrDefault()?.Value;
+
         var userId = authState.User.Claims.Where(x => x.Type.ToLower() == "sub")?.FirstOrDefault()?.Value;
         var userId2 = authState.User.Claims.Where(x => x.Type.ToLower() == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
         var userId3 = authState.User.Claims.Where(x => x.Type.ToLower() == ClaimTypes.Sid)?.FirstOrDefault()?.Value;
@@ -67,18 +143,76 @@ else
         // UserDto userDto = System.Text.Json.JsonSerializer.Deserialize<UserDto>(json) ?? new();
         UserDto userDto = JsonConvert.DeserializeObject<UserDto>(json) ?? new();
 
-        var response = await _service.Get(userId);
+        await load();
+
+        _loading = false;
+
+    }
+
+    private async Task load()
+    {
+        var response = await _service.Get(_currentUserId!);
         if (response is not null && response.IsSuccessful)
         {
             _model = JsonConvert.DeserializeObject<CartDto>(Convert.ToString(response.Result)!) ?? new();
+            _couponCode = _model.CartHeader.CouponCode;
         }
         else
         {
             _model = new();
         }
+    }
 
-        _loading = true;
+    private async Task validSubmit()
+    {
 
+    }
+
+    private async Task remove(int detailId)
+    {
+        if (await _js.InvokeAsync<bool>("confirm", "Are you sure deleting this item?"))
+        {
+            var response = await _service.Remove(detailId);
+            if (response is not null && response.IsSuccessful)
+            {
+                await load();
+                await _js.ToastrSuccess("cart item removed");
+            }
+            else
+            {
+                await _js.ToastrError("Error removing cart item!");
+            }
+        }
+    }
+
+    private async Task applyCoupon()
+    {
+        _model.CartHeader.CouponCode = _couponCode;
+        var response = await _service.ApplyCoupon(_model);
+        if (response is not null && response.IsSuccessful)
+        {
+            await load();
+            await _js.ToastrSuccess("coupon applied");
+        }
+        else
+        {
+            await _js.ToastrError("Error applying coupon!");
+        }
+    }
+
+    private async Task removeCoupon()
+    {
+        _model.CartHeader.CouponCode = "";
+        var response = await _service.ApplyCoupon(_model);
+        if (response is not null && response.IsSuccessful)
+        {
+            await load();
+            await _js.ToastrSuccess("coupon removed");
+        }
+        else
+        {
+            await _js.ToastrError("Error removing coupon!");
+        }
     }
 
 }

@@ -50,15 +50,5 @@ namespace BlazorWasm.Services.IServices
                 Data = dto
             });
         }
-
-        public async Task<ResponseDto?> RemoveCoupon(CartDto dto)
-        {
-            return await _baseService.SendAsync(new RequestDto()
-            {
-                ApiType = ApiType.Post,
-                Url = ApplicationConstants.CarthApi + "RemoveCoupon",
-                Data = dto
-            });
-        }
     }
 }
