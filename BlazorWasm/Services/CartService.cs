@@ -1,5 +1,4 @@
 ﻿using Shared;
-using Shared.Dtos;
 using Shared.Dtos.Cart;
 using Shared.Front;
 

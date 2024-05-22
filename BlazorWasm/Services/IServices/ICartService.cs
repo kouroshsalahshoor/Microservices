@@ -10,6 +10,5 @@ namespace BlazorWasm.Services.IServices
         Task<ResponseDto?> AddEdit(CartDto dto);
         Task<ResponseDto?> Remove(int cartDetailId);
         Task<ResponseDto?> ApplyCoupon(CartDto dto);
-        Task<ResponseDto?> RemoveCoupon(CartDto dto);
     }
 }
