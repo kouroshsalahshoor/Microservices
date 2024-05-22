@@ -1,6 +1,5 @@
 ﻿@page "/cart"
 @inject ICartService _service
-@inject AuthenticationStateProvider _authStateProvider
 @attribute [Authorize]
 
 <PageTitle>@_title</PageTitle>
@@ -62,6 +61,7 @@ else
         var userId = authState.User.Claims.Where(x => x.Type.ToLower() == "sub")?.FirstOrDefault()?.Value;
         var userId2 = authState.User.Claims.Where(x => x.Type.ToLower() == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
         var userId3 = authState.User.Claims.Where(x => x.Type.ToLower() == ClaimTypes.Sid)?.FirstOrDefault()?.Value;
+        var userId4 = authState.User.Claims.Where(x => x.Type.ToLower() == JwtClaimTypes.Subject)?.FirstOrDefault()?.Value;
 
         var json = await _js.InvokeAsync<string>("localStorage.getItem", ApplicationConstants.Current_User);
         // UserDto userDto = System.Text.Json.JsonSerializer.Deserialize<UserDto>(json) ?? new();
@@ -71,6 +71,10 @@ else
         if (response is not null && response.IsSuccessful)
         {
             _model = JsonConvert.DeserializeObject<CartDto>(Convert.ToString(response.Result)!) ?? new();
+        }
+        else
+        {
+            _model = new();
         }
 
         _loading = true;

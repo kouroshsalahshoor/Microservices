@@ -51,7 +51,7 @@ else
                         <a class="btn btn-success btn-square form-control btn-lg" style="height:50px;" href="/">Back to List</a>
                     </div>
                     <div class="col-12 col-md-6 ">
-                        <button class="btn btn-primary form-control btn-lg" style="height:50px;">Add to Cart</button>
+                        <button class="btn btn-primary form-control btn-lg" style="height:50px;" @onclick="addToCart">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -81,5 +81,39 @@ else
         }
         _loading = false;
 
+    }
+
+    private async Task addToCart()
+    {
+        var authState = await _authStateProvider.GetAuthenticationStateAsync();
+
+        var cartDto = new CartDto()
+            {
+                CartHeader = new CartHeaderDto()
+                {
+                    UserId = authState.User.Claims.Where(x => x.Type.ToLower() == "sub")?.FirstOrDefault()?.Value
+                }
+            };
+
+        var cartDetail = new CartDetailDto()
+            {
+                Count = _model.Count,
+                ProductId = _model.Id
+            };
+
+        var cartDetails = new List<CartDetailDto>() { cartDetail };
+
+        cartDto.CartDetails = cartDetails;
+
+        var response = await _cartService.AddEdit(cartDto);
+        if (response is not null && response.IsSuccessful)
+        {
+            await _js.ToastrSuccess("Added to Cart");
+            _navigationManager.NavigateTo("/");
+        }
+        else
+        {
+            await _js.ToastrError(response.Errors.FirstOrDefault()!);
+        }
     }
 }
