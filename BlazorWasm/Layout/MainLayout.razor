@@ -7,9 +7,12 @@
 
     <main>
         <div class="top-row px-4">
+            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            
             <AuthorizeView>
                 <Authorized>
-                    <span>
+                    <span class="mx-3">
+                        <i class="bi bi-person"></i>
                         Welcome
                         @(context.User.Claims.FirstOrDefault(x => x.Type == "name") == null ? "" : context.User.Claims.FirstOrDefault(x => x.Type == "name")!.Value)
                         @* @(context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name) == null ? "" : context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)!.Value) *@
@@ -19,12 +22,10 @@
                 <NotAuthorized>
                 </NotAuthorized>
             </AuthorizeView>
+
             <a href="cart">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
-                </svg>
+                <i class="bi bi-cart"></i>
             </a>
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
         </div>
 
         <article class="content px-4">
