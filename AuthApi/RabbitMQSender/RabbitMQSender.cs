@@ -29,12 +29,12 @@ namespace AuthApi.RabbitMQSender
 
             _connection = factory.CreateConnection();
             using var channel = _connection.CreateModel();
-            channel.QueueDeclare(queueName);
+            channel.QueueDeclare(queueName, durable:false, exclusive: false, autoDelete: false, null);
 
             var json = JsonConvert.SerializeObject(message);
             var body = Encoding.UTF8.GetBytes(json);
 
-            channel.BasicPublish(exchange: "", routingKey: queueName, body: body);
+            channel.BasicPublish(exchange: "", routingKey: queueName, basicProperties: null, body: body);
         }
     }
 }

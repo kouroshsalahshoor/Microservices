@@ -89,8 +89,11 @@
                 _navigationManager.NavigateTo("/auth/login");
             }
         }
-        
-        await _js.ToastrError(_response!.Errors.First());
+
+        if (_response!.Errors.Any())
+        {
+            await _js.ToastrError(_response!.Errors.First());
+        }
         _loading = false;
     }
 }
