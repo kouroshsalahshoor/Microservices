@@ -20,21 +20,45 @@ namespace AuthApi.RabbitMQSender
         }
         public void Send(string message, string queueName)
         {
-            var factory = new ConnectionFactory
+            if (connectionExists())
             {
-                HostName = _hostname,
-                UserName = _userName,
-                Password = _password
-            };
+                using var channel = _connection.CreateModel();
+                channel.QueueDeclare(queueName, durable: false, exclusive: false, autoDelete: false, null);
 
-            _connection = factory.CreateConnection();
-            using var channel = _connection.CreateModel();
-            channel.QueueDeclare(queueName, durable:false, exclusive: false, autoDelete: false, null);
+                var json = JsonConvert.SerializeObject(message);
+                var body = Encoding.UTF8.GetBytes(json);
 
-            var json = JsonConvert.SerializeObject(message);
-            var body = Encoding.UTF8.GetBytes(json);
+                channel.BasicPublish(exchange: "", routingKey: queueName, basicProperties: null, body: body);
+            }
 
-            channel.BasicPublish(exchange: "", routingKey: queueName, basicProperties: null, body: body);
+        }
+
+        private void createConnection()
+        {
+            try
+            {
+                var factory = new ConnectionFactory
+                {
+                    HostName = _hostname,
+                    UserName = _userName,
+                    Password = _password
+                };
+
+                _connection = factory.CreateConnection();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private bool connectionExists()
+        {
+            if (_connection is not null)
+            {
+                return true;
+            }
+            createConnection();
+            return true;
         }
     }
 }
