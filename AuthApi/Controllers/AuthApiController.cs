@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 using Shared.Dtos.Auth;
+using Shared.RabbitMQSender;
 
 namespace AuthApi.Controllers
 {
@@ -13,10 +14,14 @@ namespace AuthApi.Controllers
     {
         private ResponseDto _response;
         private readonly IAuthService _authService;
+        private readonly IRabbitMQSender _rabbitMQSender;
+        private readonly IConfiguration _configuration;
 
-        public AuthApiController(IAuthService authService)
+        public AuthApiController(IAuthService authService, IRabbitMQSender rabbitMQSender, IConfiguration configuration)
         {
             _authService = authService;
+            _rabbitMQSender = rabbitMQSender;
+            _configuration = configuration;
             _response = new();
         }
 
@@ -26,6 +31,8 @@ namespace AuthApi.Controllers
             _response = await _authService.Register(dto);
             if (_response.IsSuccessful)
             {
+                _rabbitMQSender.Send(dto.Email, _configuration.GetValue<string>("TopicsAndQueues:RegisterUserQueue")!);
+
                 return Ok(_response);
             }
             return BadRequest(_response);

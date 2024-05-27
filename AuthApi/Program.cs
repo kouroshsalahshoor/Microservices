@@ -1,10 +1,12 @@
 using AuthApi.Data;
 using AuthApi.Models;
+using AuthApi.RabbitMQSender;
 using AuthApi.Services;
 using AuthApi.Services.IServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared;
+using Shared.RabbitMQSender;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +42,8 @@ builder.Services.AddCors(options =>
                .AllowAnyMethod();
        });
 });
+
+builder.Services.AddScoped<IRabbitMQSender, RabbitMQSender>();
 
 var app = builder.Build();
 

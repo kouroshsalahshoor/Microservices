@@ -8,6 +8,7 @@ namespace Shared.Dtos.Auth
         public string UserName { get; set; } = string.Empty;
         [Required]
         [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string Email { get; set; } = string.Empty;
         [Required]
         public string Phone { get; set; } = string.Empty;
