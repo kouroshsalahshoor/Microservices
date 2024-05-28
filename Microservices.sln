@@ -5,8 +5,6 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Front", "Front", "{66F902FB-717A-4DAA-A079-81D9D980116F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{B15C5ECD-92E0-4C16-93BE-A69B46BACC47}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{3C33B7E5-1D6A-4711-85AC-23A83B81DE60}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CouponApi", "CouponApi\CouponApi.csproj", "{D623AE69-A1C3-4909-832A-E969F6A91661}"
@@ -23,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductApi", "ProductApi\Pr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartApi", "CartApi\CartApi.csproj", "{06F64712-D9D4-40B3-A7BD-5DC350858896}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailApi", "EmailApi\EmailApi.csproj", "{219D88A3-B638-4040-A019-8097B9184F7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailApi", "EmailApi\EmailApi.csproj", "{219D88A3-B638-4040-A019-8097B9184F7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
