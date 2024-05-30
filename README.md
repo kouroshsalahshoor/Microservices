@@ -4,7 +4,7 @@
 
 ---
 ## 
-* microservices with Web API
+* microservices with RabbitMQ & Web API
 * AuthApi with jwt token & roles (Single Sign On)
 * Blazor Wasm
   
@@ -19,6 +19,7 @@
 * Web API
 * Entity Framework code first
 * Swagger
+* RabbitMQ
 * [toastr js](https://www.youtube.com/watch?v=yG_sY-CDvXY)
 * [sweetalert2](https://sweetalert2.github.io/)
 
