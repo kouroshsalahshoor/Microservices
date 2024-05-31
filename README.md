@@ -16,7 +16,7 @@
 Databases will be created automatically and seeded
 
 ---
-##RabbitMQ
+## RabbitMQ
 * [Download page](https://www.rabbitmq.com/docs/download#downloads-on-github)
 * [Management Plugin](https://www.rabbitmq.com/docs/management)
 * [http://localhost:15672/](http://localhost:15672/)
