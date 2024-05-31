@@ -1,5 +1,4 @@
 ﻿using Shared;
-using Shared.Dtos;
 using Shared.Dtos.Cart;
 
 namespace BlazorWasm.Services.IServices
@@ -10,5 +9,6 @@ namespace BlazorWasm.Services.IServices
         Task<ResponseDto?> AddEdit(CartDto dto);
         Task<ResponseDto?> Remove(int cartDetailId);
         Task<ResponseDto?> ApplyCoupon(CartDto dto);
+        Task<ResponseDto?> EmailCart(CartDto dto);
     }
 }

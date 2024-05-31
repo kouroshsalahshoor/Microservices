@@ -3,6 +3,7 @@ using CartApi.Data;
 using CartApi.Infrastructure;
 using CartApi.Services;
 using CartApi.Services.IServices;
+using MessageSenders;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -98,6 +99,8 @@ builder.Services.AddHttpClient("Coupons", x => x.BaseAddress = new Uri(builder.C
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
+
+builder.Services.AddScoped<ISendMessage, RabbitMQSender>();
 
 
 var app = builder.Build();

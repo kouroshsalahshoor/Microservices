@@ -30,6 +30,16 @@ namespace BlazorWasm.Services.IServices
             });
         }
 
+        public async Task<ResponseDto?> EmailCart(CartDto dto)
+        {
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = ApiType.Post,
+                Url = ApplicationConstants.CarthApi + "EmailCart",
+                Data = dto
+            });
+        }
+
         public async Task<ResponseDto?> Remove(int cartDetailId)
         {
             return await _baseService.SendAsync(new RequestDto()

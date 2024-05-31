@@ -99,7 +99,7 @@ else
                     </div>
                     <div class="card-footer row">
                         <div class="col-6 col-md-3 ">
-                            <button class="btn btn-outline-danger form-control">Email Cart</button>
+                            <a class="btn btn-outline-danger form-control" @onclick="emailCart">Email Cart</a>
                         </div>
                         <div class="col-6 col-md-3 offset-md-6">
                             <a class="btn btn-success form-control">Looks Good? </a>
@@ -126,6 +126,7 @@ else
 
     private string? _currentUserId;
     private string? _couponCode;
+    private UserDto _currentUserDto;
 
     protected override async Task OnInitializedAsync()
     {
@@ -140,8 +141,8 @@ else
         var userId4 = authState.User.Claims.Where(x => x.Type.ToLower() == JwtClaimTypes.Subject)?.FirstOrDefault()?.Value;
 
         var json = await _js.InvokeAsync<string>("localStorage.getItem", ApplicationConstants.Current_User);
-        // UserDto userDto = System.Text.Json.JsonSerializer.Deserialize<UserDto>(json) ?? new();
-        UserDto userDto = JsonConvert.DeserializeObject<UserDto>(json) ?? new();
+        _currentUserDto = JsonConvert.DeserializeObject<UserDto>(json) ?? new();
+        // _currentUserDto = System.Text.Json.JsonSerializer.Deserialize<UserDto>(json) ?? new();
 
         await load();
 
@@ -156,6 +157,10 @@ else
         {
             _model = JsonConvert.DeserializeObject<CartDto>(Convert.ToString(response.Result)!) ?? new();
             _couponCode = _model.CartHeader.CouponCode;
+            _model.CartHeader.FirstName = _currentUserDto.FirstName;
+            _model.CartHeader.LastName = _currentUserDto.LastName;
+            _model.CartHeader.Email = _currentUserDto.Email;
+            _model.CartHeader.Phone = _currentUserDto.Phone;
         }
         else
         {
@@ -187,7 +192,7 @@ else
 
     private async Task applyCoupon()
     {
-        _model.CartHeader.CouponCode = _couponCode;
+        _model!.CartHeader.CouponCode = _couponCode;
         var response = await _service.ApplyCoupon(_model);
         if (response is not null && response.IsSuccessful)
         {
@@ -202,7 +207,7 @@ else
 
     private async Task removeCoupon()
     {
-        _model.CartHeader.CouponCode = "";
+        _model!.CartHeader.CouponCode = "";
         var response = await _service.ApplyCoupon(_model);
         if (response is not null && response.IsSuccessful)
         {
@@ -212,6 +217,19 @@ else
         else
         {
             await _js.ToastrError("Error removing coupon!");
+        }
+    }
+
+    private async Task emailCart()
+    {
+        var response = await _service.EmailCart(_model!);
+        if (response is not null && response.IsSuccessful)
+        {
+            await _js.ToastrSuccess("cart emailed");
+        }
+        else
+        {
+            await _js.ToastrError("Error emailing cart!");
         }
     }
 

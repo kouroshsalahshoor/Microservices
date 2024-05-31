@@ -2,9 +2,11 @@
 using CartApi.Data;
 using CartApi.Models;
 using CartApi.Services.IServices;
+using MessageSenders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Shared;
 using Shared.Dtos.Cart;
 
@@ -19,14 +21,19 @@ namespace CartApi.Controllers
         private readonly IMapper _mapper;
         private readonly IProductService _productService;
         private readonly ICouponService _couponService;
+        private readonly ISendMessage _rabbitMQSender;
+        private readonly IConfiguration _configuration;
         private readonly ResponseDto _response;
 
-        public CartApiController(ApplicationDbContext db, IMapper mapper, IProductService productService, ICouponService couponService)
+        public CartApiController(ApplicationDbContext db, IMapper mapper, IProductService productService, ICouponService couponService, ISendMessage rabbitMQSender, 
+            IConfiguration configuration)
         {
             _db = db;
             _mapper = mapper;
             _productService = productService;
             _couponService = couponService;
+            _rabbitMQSender = rabbitMQSender;
+            _configuration = configuration;
             _response = new();
         }
 
@@ -92,10 +99,8 @@ namespace CartApi.Controllers
         {
             try
             {
-                var cartHeader = await _db.CartHeaders.FirstAsync(x => x.UserId == dto.CartHeader.UserId);
-                cartHeader.CouponCode = dto.CartHeader?.CouponCode;
-                _db.CartHeaders.Update(cartHeader);
-                await _db.SaveChangesAsync();
+                _rabbitMQSender.Send(dto, _configuration.GetValue<string>("TopicsAndQueues:cart")!);
+
                 _response.Result = true;
             }
             catch (Exception ex)
@@ -105,6 +110,22 @@ namespace CartApi.Controllers
             }
             return _response;
         }
+
+        //[HttpPost("xxx")]
+        //public async Task<ResponseDto> xxx([FromBody] CartDto dto)
+        //{
+        //    try
+        //    {
+
+        //        _response.Result = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _response.IsSuccessful = false;
+        //        _response.Errors.Add(ex.Message);
+        //    }
+        //    return _response;
+        //}
 
         [HttpPost("addedit")]
         public async Task<ResponseDto> AddEdit([FromBody] CartDto dto)
