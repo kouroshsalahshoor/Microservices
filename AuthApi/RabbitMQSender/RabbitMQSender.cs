@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 using RabbitMQ.Client;
-using Shared.RabbitMQSender;
+using Shared.MessageSender;
 using System.Text;
 
 namespace AuthApi.RabbitMQSender
 {
-    public class RabbitMQSender : IRabbitMQSender
+    public class RabbitMQSender : ISendMessage
     {
         private readonly string _hostname;
         private readonly string _userName;
@@ -53,12 +53,12 @@ namespace AuthApi.RabbitMQSender
 
         private bool connectionExists()
         {
-            if (_connection is not null)
+            if (_connection is null)
             {
+                createConnection();
                 return true;
             }
-            createConnection();
-            return true;
+            return false;
         }
     }
 }

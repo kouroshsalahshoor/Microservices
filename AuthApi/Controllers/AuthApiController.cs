@@ -1,9 +1,8 @@
 ﻿using AuthApi.Services.IServices;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 using Shared.Dtos.Auth;
-using Shared.RabbitMQSender;
+using Shared.MessageSender;
 
 namespace AuthApi.Controllers
 {
@@ -14,10 +13,10 @@ namespace AuthApi.Controllers
     {
         private ResponseDto _response;
         private readonly IAuthService _authService;
-        private readonly IRabbitMQSender _rabbitMQSender;
+        private readonly ISendMessage _rabbitMQSender;
         private readonly IConfiguration _configuration;
 
-        public AuthApiController(IAuthService authService, IRabbitMQSender rabbitMQSender, IConfiguration configuration)
+        public AuthApiController(IAuthService authService, ISendMessage rabbitMQSender, IConfiguration configuration)
         {
             _authService = authService;
             _rabbitMQSender = rabbitMQSender;
