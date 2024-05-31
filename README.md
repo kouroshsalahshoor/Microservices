@@ -1,12 +1,25 @@
 # Microservices
+* Web API (Backend)
+* Blazor Wasm (Frontend)
+* Microsoft Identity, jwt token & roles (Single Sign On)
+* RabbitMQ Messaging
 
 ![Microservices](https://github.com/kouroshsalahshoor/Microservices/blob/master/images/BlazorMicroservices.png)
 
 ---
-## 
-* microservices with RabbitMQ & Web API
-* AuthApi with jwt token & roles (Single Sign On)
-* Blazor Wasm
+# To run:
+* Download / clone the code
+* [Install Visual Studio 2022 Community Edition](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&channel=Release&version=VS2022&source=VSLandingPage&passive=false&cid=2030)
+* [Install Rabbit MQ](https://www.rabbitmq.com/docs/download#downloads-on-github)
+* Set multiple projects start up in solution
+
+Databases will be created automatically and seeded
+
+---
+##RabbitMQ
+* [Download page](https://www.rabbitmq.com/docs/download#downloads-on-github)
+* [Management Plugin](https://www.rabbitmq.com/docs/management)
+* [http://localhost:15672/](http://localhost:15672/)
   
 ---
 ## Technologies:
