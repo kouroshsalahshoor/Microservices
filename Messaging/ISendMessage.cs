@@ -1,4 +1,4 @@
-﻿namespace Shared.MessageSender
+﻿namespace MessageSenders
 {
     public interface ISendMessage
     {

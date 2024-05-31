@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
 using RabbitMQ.Client;
-using Shared.MessageSender;
 using System.Text;
 
-namespace AuthApi.MessageSenders
+namespace MessageSenders
 {
     public class RabbitMQSender : ISendMessage
     {

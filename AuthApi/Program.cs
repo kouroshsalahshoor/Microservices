@@ -1,11 +1,10 @@
 using AuthApi.Data;
-using AuthApi.MessageSenders;
 using AuthApi.Models;
 using AuthApi.Services;
 using AuthApi.Services.IServices;
+using MessageSenders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Shared.MessageSender;
 
 var builder = WebApplication.CreateBuilder(args);
 

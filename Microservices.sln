@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartApi", "CartApi\CartApi.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailApi", "EmailApi\EmailApi.csproj", "{219D88A3-B638-4040-A019-8097B9184F7D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Messaging", "Messaging", "{A9464361-BAB1-4E1B-8751-2943FFF0AC91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageSenders", "Messaging\MessageSenders.csproj", "{385A210F-A131-49B5-8637-745AF70B272A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +61,10 @@ Global
 		{219D88A3-B638-4040-A019-8097B9184F7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{219D88A3-B638-4040-A019-8097B9184F7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{219D88A3-B638-4040-A019-8097B9184F7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{385A210F-A131-49B5-8637-745AF70B272A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{385A210F-A131-49B5-8637-745AF70B272A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{385A210F-A131-49B5-8637-745AF70B272A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{385A210F-A131-49B5-8637-745AF70B272A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +77,7 @@ Global
 		{AE1618F6-BA59-4205-BA6C-E216A985CE92} = {3C33B7E5-1D6A-4711-85AC-23A83B81DE60}
 		{06F64712-D9D4-40B3-A7BD-5DC350858896} = {3C33B7E5-1D6A-4711-85AC-23A83B81DE60}
 		{219D88A3-B638-4040-A019-8097B9184F7D} = {3C33B7E5-1D6A-4711-85AC-23A83B81DE60}
+		{385A210F-A131-49B5-8637-745AF70B272A} = {A9464361-BAB1-4E1B-8751-2943FFF0AC91}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1E060608-4AE3-4A54-9C05-D91B06763846}

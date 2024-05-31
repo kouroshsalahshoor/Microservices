@@ -1,8 +1,8 @@
 ﻿using AuthApi.Services.IServices;
+using MessageSenders;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 using Shared.Dtos.Auth;
-using Shared.MessageSender;
 
 namespace AuthApi.Controllers
 {

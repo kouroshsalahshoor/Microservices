@@ -87,6 +87,25 @@ namespace CartApi.Controllers
             return _response;
         }
 
+        [HttpPost("EmailCart")]
+        public async Task<ResponseDto> EmailCart([FromBody] CartDto dto)
+        {
+            try
+            {
+                var cartHeader = await _db.CartHeaders.FirstAsync(x => x.UserId == dto.CartHeader.UserId);
+                cartHeader.CouponCode = dto.CartHeader?.CouponCode;
+                _db.CartHeaders.Update(cartHeader);
+                await _db.SaveChangesAsync();
+                _response.Result = true;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccessful = false;
+                _response.Errors.Add(ex.Message);
+            }
+            return _response;
+        }
+
         [HttpPost("addedit")]
         public async Task<ResponseDto> AddEdit([FromBody] CartDto dto)
         {
