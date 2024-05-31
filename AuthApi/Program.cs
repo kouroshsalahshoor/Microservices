@@ -1,6 +1,6 @@
 using AuthApi.Data;
+using AuthApi.MessageSenders;
 using AuthApi.Models;
-using AuthApi.RabbitMQSender;
 using AuthApi.Services;
 using AuthApi.Services.IServices;
 using Microsoft.AspNetCore.Identity;

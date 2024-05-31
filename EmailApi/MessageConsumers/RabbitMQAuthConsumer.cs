@@ -4,9 +4,8 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
-using System.Threading.Channels;
 
-namespace EmailApi.RabbitMQConsumers
+namespace EmailApi.MessageConsumers
 {
     public class RabbitMQAuthConsumer : BackgroundService
     {

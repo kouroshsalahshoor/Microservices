@@ -3,14 +3,14 @@ using RabbitMQ.Client;
 using Shared.MessageSender;
 using System.Text;
 
-namespace AuthApi.RabbitMQSender
+namespace AuthApi.MessageSenders
 {
     public class RabbitMQSender : ISendMessage
     {
         private readonly string _hostname;
         private readonly string _userName;
         private readonly string _password;
-        private IConnection _connection;
+        private IConnection? _connection;
 
         public RabbitMQSender()
         {
@@ -22,7 +22,7 @@ namespace AuthApi.RabbitMQSender
         {
             if (connectionExists())
             {
-                using var channel = _connection.CreateModel();
+                using var channel = _connection!.CreateModel();
                 channel.QueueDeclare(queueName, durable: false, exclusive: false, autoDelete: false, null);
 
                 var json = JsonConvert.SerializeObject(message);

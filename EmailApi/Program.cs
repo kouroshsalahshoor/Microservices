@@ -1,5 +1,5 @@
 using EmailApi.Data;
-using EmailApi.RabbitMQConsumers;
+using EmailApi.MessageConsumers;
 using EmailApi.Services;
 using Microsoft.EntityFrameworkCore;
 
