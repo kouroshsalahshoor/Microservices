@@ -2,6 +2,7 @@
 using CartApi.Data;
 using CartApi.Models;
 using CartApi.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shared;
@@ -11,6 +12,7 @@ namespace CartApi.Controllers
 {
     [Route("api/cart")]
     [ApiController]
+    [Authorize]
     public class CartApiController : ControllerBase
     {
         private readonly ApplicationDbContext _db;
