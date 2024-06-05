@@ -1,7 +1,7 @@
 @host = https://localhost
 @port = 7114
 
-@RestaurantApi_HostAddress = {{host}}:{{port}}
+@RestaurantApi_HostAddress = https://localhost:7114
 
 GET {{RestaurantApi_HostAddress}}/weatherforecast
 Accept: application/json
@@ -10,4 +10,13 @@ LocalDate: {{$datetime iso8601}}
 RandomInt: {{$randomInt}}
 # ProjectUrl: {{$projectUrl}}
 
+###
+
+GET {{RestaurantApi_HostAddress}}/weatherforecast/get2?count=3
+Content-Type: application/json
+
+{
+  "min": "-23",
+  "max": "23"
+}
 ###
