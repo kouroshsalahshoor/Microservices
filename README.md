@@ -16,12 +16,6 @@
 Databases will be created automatically and seeded
 
 ---
-## RabbitMQ
-* [Download page](https://www.rabbitmq.com/docs/download#downloads-on-github)
-* [Management Plugin](https://www.rabbitmq.com/docs/management)
-* [http://localhost:15672/](http://localhost:15672/)
-  
----
 ## Technologies:
 * .Net 8
 * C#
@@ -37,9 +31,19 @@ Databases will be created automatically and seeded
 * [sweetalert2](https://sweetalert2.github.io/)
 
 ---
+## download links:
+- (https://visualstudio.microsoft.com/downloads/)[https://visualstudio.microsoft.com/downloads/]
+
+---
+  ## RabbitMQ
+* [Download page](https://www.rabbitmq.com/docs/download#downloads-on-github)
+* [Management Plugin](https://www.rabbitmq.com/docs/management)
+* [http://localhost:15672/](http://localhost:15672/)
+  
+---
 ## useful commands:
 - dotnet --info
-- 
+  
 ---
 ## Sources
 * [.NET Core Microservices - The Complete Guide](https://www.dotnetmastery.com/Home/Details?courseId=19)
