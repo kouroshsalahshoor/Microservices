@@ -32,8 +32,9 @@ Databases will be created automatically and seeded
 
 ---
 ## download links:
-- (https://visualstudio.microsoft.com/downloads/)[https://visualstudio.microsoft.com/downloads/]
-
+- [visual studio](https://visualstudio.microsoft.com/downloads/)
+- [visual studio code](https://code.visualstudio.com/Download)
+  
 ---
   ## RabbitMQ
 * [Download page](https://www.rabbitmq.com/docs/download#downloads-on-github)
