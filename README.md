@@ -44,7 +44,10 @@ Databases will be created automatically and seeded
 ---
 ## useful commands:
 - dotnet --info
-  
+
+---
+## Youtube:
+- [jakub kozera](https://www.youtube.com/@FullstackDeveloperPL)
 ---
 ## Sources
 * [.NET Core Microservices - The Complete Guide](https://www.dotnetmastery.com/Home/Details?courseId=19)
