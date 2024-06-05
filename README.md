@@ -37,6 +37,10 @@ Databases will be created automatically and seeded
 * [sweetalert2](https://sweetalert2.github.io/)
 
 ---
+## useful commands:
+- dotnet --info
+- 
+---
 ## Sources
 * [.NET Core Microservices - The Complete Guide](https://www.dotnetmastery.com/Home/Details?courseId=19)
 * [Blazor - The Complete Guide (Server & WASM)](https://www.dotnetmastery.com/Home/Details?courseId=17)
