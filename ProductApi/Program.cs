@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProductApi.Data;
 using ProductApi.Infrastructure;
+using Shared.User;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,7 +66,7 @@ var section = builder.Configuration.GetSection("JwtOptions");
 var secret = section.GetValue<string>("Secret");
 var issuer = section.GetValue<string>("Issuer");
 var audience = section.GetValue<string>("Audience");
-var key = Encoding.ASCII.GetBytes(secret);
+var key = Encoding.ASCII.GetBytes(secret!);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -85,6 +86,9 @@ builder.Services.AddAuthentication(options =>
         };
     });
 builder.Services.AddAuthorization();
+
+builder.Services.AddScoped<IUserContext, UserContext>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

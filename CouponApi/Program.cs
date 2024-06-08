@@ -22,6 +22,7 @@ builder.Services.AddSwaggerGen(options =>
         Description = "Please enter the Bearer Athorization string: 'Bearer JWT-Token'",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
+        //Type = SecuritySchemeType.Http,
         Scheme = JwtBearerDefaults.AuthenticationScheme
     });
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -35,7 +36,8 @@ builder.Services.AddSwaggerGen(options =>
                     Id = JwtBearerDefaults.AuthenticationScheme
                 }
             },
-            new string[]{}
+            []
+            //new string[]{}
         }
     });
 });

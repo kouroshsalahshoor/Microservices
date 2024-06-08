@@ -7,6 +7,7 @@ using ProductApi.Models;
 using Shared;
 using Shared.Dtos;
 using Shared.Front;
+using Shared.User;
 
 namespace ProductApi.Controllers
 {
@@ -17,21 +18,26 @@ namespace ProductApi.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
+        private readonly IUserContext _userContext;
         private readonly ResponseDto _response;
 
-        public ProductApiController(ApplicationDbContext db, IMapper mapper)
+        public ProductApiController(ApplicationDbContext db, IMapper mapper, IUserContext userContext)
         {
             _db = db;
             _mapper = mapper;
+            _userContext = userContext;
             _response = new();
         }
 
         [HttpGet]
         [AllowAnonymous]
+        //[Authorize(Roles = ApplicationConstants.Role_Admin)]
         public async Task<ResponseDto> Get()
         {
             try
             {
+                var currentUser = _userContext.GetCurrentUser();
+
                 var models = await _db.Products.ToListAsync();
                 _response.IsSuccessful = true;
                 _response.Result = _mapper.Map<List<ProductDto>>(models);

@@ -5,7 +5,6 @@ using AuthApi.Services.IServices;
 using MessageSenders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,6 +60,7 @@ app.UseHttpsRedirection();
 app.UseCors();
 
 app.MapIdentityApi<ApplicationUser>();
+//app.MapGroup("identity").MapIdentityApi<ApplicationUser>();
 
 app.UseAuthentication();
 app.UseAuthorization();
