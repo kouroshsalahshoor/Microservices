@@ -117,7 +117,7 @@ namespace AuthApi.Services
                     result = await _roleManager.CreateAsync(new IdentityRole { Name = role, NormalizedName = role.ToUpper() });
                     if (result.Succeeded == false)
                     {
-                        return new ResponseDto { IsSuccessful = false, Errors = result.Errors.Select(x=> x.Description).ToList() };
+                        return new ResponseDto { IsSuccessful = false, Errors = result.Errors.Select(x => x.Description).ToList() };
                     }
                 }
 
@@ -127,12 +127,54 @@ namespace AuthApi.Services
                     return new ResponseDto { IsSuccessful = false, Errors = result.Errors.Select(x => x.Description).ToList() };
                 }
 
-                return new ResponseDto
-                {
-                    IsSuccessful = true,
-                };
+                return new ResponseDto { IsSuccessful = true };
             }
 
+        }
+
+        public async Task<ResponseDto> UpdateUser(UserDto dto)
+        {
+            var userInDb = await _userManager.FindByIdAsync(dto.Id);
+            if (userInDb is null) { return new ResponseDto { IsSuccessful = false, Errors = new List<string> { "User Not found!" } }; }
+            else
+            {
+                userInDb.UserName = dto.UserName;
+                userInDb.Email = dto.Email;
+                userInDb.PhoneNumber = dto.Phone;
+                userInDb.FirstName = dto.FirstName;
+                userInDb.LastName = dto.LastName;
+
+                var result = await _userManager.UpdateAsync(userInDb);
+                if (result.Succeeded == false)
+                {
+                    return new ResponseDto { IsSuccessful = false, Errors = result.Errors.Select(x => x.Description).ToList() };
+                }
+
+                //Roles
+                var roles = await _userManager.GetRolesAsync(userInDb);
+                var rolesToAdd = dto.Roles.Except(roles);
+                var rolesToRemove = roles.Except(dto.Roles);
+
+                if (rolesToAdd.Any())
+                {
+                    result = await _userManager.AddToRolesAsync(userInDb, rolesToAdd);
+                    if (result.Succeeded == false)
+                    {
+                        return new ResponseDto { IsSuccessful = false, Errors = result.Errors.Select(x => x.Description).ToList() };
+                    }
+                }
+
+                if (rolesToRemove.Any())
+                {
+                    result = await _userManager.RemoveFromRolesAsync(userInDb, rolesToRemove);
+                    if (result.Succeeded == false)
+                    {
+                        return new ResponseDto { IsSuccessful = false, Errors = result.Errors.Select(x => x.Description).ToList() };
+                    }
+                }
+            }
+
+            return new ResponseDto { IsSuccessful = true };
         }
     }
 }

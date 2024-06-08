@@ -1,5 +1,6 @@
 ﻿using AuthApi.Services.IServices;
 using MessageSenders;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 using Shared.Dtos.Auth;
@@ -57,6 +58,19 @@ namespace AuthApi.Controllers
         public async Task<IActionResult> AssignToRole([FromBody] RegisterDto dto)
         {
             _response = await _authService.AssignToRole(dto.UserName, dto.Role);
+            if (_response.IsSuccessful)
+            {
+                return Ok(_response);
+            }
+            return BadRequest(_response);
+        }
+
+        [Authorize]
+        [HttpPut("UpdateUser")]
+        //[HttpPatch("UpdateUser")]
+        public async Task<IActionResult> UpdateUser([FromBody] UserDto dto)
+        {
+            _response = await _authService.UpdateUser(dto);
             if (_response.IsSuccessful)
             {
                 return Ok(_response);
